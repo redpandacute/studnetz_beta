@@ -1,0 +1,19 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Basic Button dimens -->
+    <dimen name="basic_rounded_button_radius">100dp</dimen>
+    <dimen name="basic_rounded_button_padding">20dp</dimen>
+
+    <!-- Signin and Signup Button dimens -->
+    <dimen name="signin_signup_textsize">20dp</dimen>
+    <dimen name="signin_signup_margin_between">20dp</dimen>
+    <dimen name="signin_signup_margin_top">20dp</dimen>
+
+
+    <!-- Register Dimens -->
+    <dimen name="register_margin_bottom">60dp</dimen>
+    <dimen name="basic_text_input_radius">30dp</dimen>
+    <dimen name="basic_text_input_horizontalpadding">20dp</dimen>
+    <dimen name="basic_text_input_verticalpadding">10dp</dimen>
+</resources>

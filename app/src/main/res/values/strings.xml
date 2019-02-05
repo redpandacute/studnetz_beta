@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Studnetz</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_register">RegisterActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_hint">Insert your email</string>
+    <string name="next">Next</string>
+    <string name="signup">Sign up</string>
+    <string name="signin">Sign in</string>
+    <string name="firstname_hint">First name</string>
+    <string name="lastname_hint">Last name</string>
+    <string name="passwordconf_hint">Confirm Password</string>
+    <string name="password_hint">Password</string>
+</resources>

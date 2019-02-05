@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <color name="dark_grey">#545F66</color>
+    <color name="light_grey">#98A1A7</color>
+
+    <!-- Signin Signup Button -->
+    <color name="signin_signup_button_normal">#D81B60</color>
+    <color name="signin_signup_button_pressed">#E06C96</color>
+
+</resources>
