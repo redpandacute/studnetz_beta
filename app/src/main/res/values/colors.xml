@@ -14,4 +14,8 @@
     <color name="signin_signup_button_normal">#D81B60</color>
     <color name="signin_signup_button_pressed">#E06C96</color>
 
+    <!-- Schoolsignin Button -->
+    <color name="schoolsignin_button_normal">#FFC925</color>
+    <color name="schoolsignin_button_pressed">#FFECB0</color>
+
 </resources>
