@@ -1,6 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- Toolbar -->
+    <dimen name="toolbar_height">65dp</dimen>
+
     <!-- Basic Button dimens -->
     <dimen name="basic_rounded_button_radius">100dp</dimen>
     <dimen name="basic_rounded_button_padding">20dp</dimen>
