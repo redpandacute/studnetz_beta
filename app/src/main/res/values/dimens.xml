@@ -16,4 +16,7 @@
     <dimen name="basic_text_input_radius">30dp</dimen>
     <dimen name="basic_text_input_horizontalpadding">20dp</dimen>
     <dimen name="basic_text_input_verticalpadding">10dp</dimen>
+
+    <!-- Client profile Dimens -->
+    <dimen name="client_pp_margin">20dp</dimen>
 </resources>
