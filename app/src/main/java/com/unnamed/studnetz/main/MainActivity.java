@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
