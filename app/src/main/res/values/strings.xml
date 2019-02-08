@@ -16,4 +16,7 @@
     <string name="passwordconf_hint">Confirm Password</string>
     <string name="password_hint">Password</string>
     <string name="schoolsignin">School sign in</string>
+    <string name="description">Description</string>
+    <string name="reviews">Reviews</string>
+    <string name="calendar">Calendar</string>
 </resources>
