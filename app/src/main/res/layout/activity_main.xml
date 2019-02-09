@@ -26,6 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/manu_bottomnavigaion_main" />
+        app:menu="@menu/menu_bottomnavigaion_main" />
 
 </android.support.constraint.ConstraintLayout>

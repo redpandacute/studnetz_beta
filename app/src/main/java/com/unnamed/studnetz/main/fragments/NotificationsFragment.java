@@ -1,4 +1,4 @@
-package com.unnamed.studnetz.main;
+package com.unnamed.studnetz.main.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 
 import com.unnamed.studnetz.R;
 
-public class ProfileFragment extends Fragment {
+public class NotificationsFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_clientprofile, null);
+        return inflater.inflate(R.layout.fragment_notifications, null);
     }
 }
