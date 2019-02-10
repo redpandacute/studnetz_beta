@@ -18,4 +18,8 @@
     <color name="schoolsignin_button_normal">#FFC925</color>
     <color name="schoolsignin_button_pressed">#FFECB0</color>
 
+    <!-- Subjects -->
+    <color name="subject_physics_normal">#009688</color>
+    <color name="subject_physics_pressed">#54C4BA</color>
+
 </resources>

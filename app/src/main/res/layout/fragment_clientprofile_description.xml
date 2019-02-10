@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/lientprofile_subject_flexbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:flexWrap="wrap"
+        app:alignItems="stretch"
+        app:alignContent="stretch">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/clientprofile_subjects_horizontalmargin"
+            android:layout_marginRight="@dimen/clientprofile_subjects_horizontalmargin"
+            android:layout_marginTop="@dimen/clientprofile_subjects_verticalmargin"
+            android:layout_marginBottom="@dimen/clientprofile_subjects_verticalmargin"
+            android:background="@drawable/subject_physics"
+            android:paddingRight="@dimen/clientprofile_subjects_horizontalpadding"
+            android:paddingLeft="@dimen/clientprofile_subjects_horizontalpadding"
+            android:paddingTop="@dimen/clientprofile_subjects_verticalpadding"
+            android:paddingBottom="@dimen/clientprofile_subjects_verticalpadding"
+            android:singleLine="true"
+            android:text="Physics"
+            android:visibility="visible"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:id="@+id/clientprofile_description_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/description"
+        android:paddingLeft="5dp"
+        app:layout_constraintTop_toBottomOf="@id/lientprofile_subject_flexbox"
+        app:layout_constraintLeft_toLeftOf="@id/lientprofile_subject_flexbox"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lorem"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        app:layout_constraintTop_toBottomOf="@id/clientprofile_description_title_textview" />
+</android.support.constraint.ConstraintLayout>
