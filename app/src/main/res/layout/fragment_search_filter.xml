@@ -24,20 +24,11 @@
 
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/title_home"
+        android:text="@string/title_search"
         android:textColor="@color/colorWhite"
         android:textSize="24sp" />
 
-    <ImageButton
-        android:id="@+id/fragment_home_searchbutton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignTop="@+id/fragment_home_toolbar"
-        android:layout_alignEnd="@+id/fragment_home_toolbar"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
-        android:background="@null"
-        app:srcCompat="@android:drawable/ic_search_category_default" />
+
 
 
 </RelativeLayout>

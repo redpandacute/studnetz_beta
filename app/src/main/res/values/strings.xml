@@ -7,6 +7,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- sign in and -up -->
     <string name="email_hint">Insert your email</string>
     <string name="next">Next</string>
     <string name="signup">Sign up</string>
@@ -16,13 +18,20 @@
     <string name="passwordconf_hint">Confirm Password</string>
     <string name="password_hint">Password</string>
     <string name="schoolsignin">School sign in</string>
+
+    <!-- profile -->
     <string name="description">Description</string>
     <string name="reviews">Reviews</string>
     <string name="calendar">Calendar</string>
+    <string name="clientprofile" />
+
+    <!-- Toolbar titles -->
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_groups">Groups</string>
     <string name="title_profile">Profile</string>
-    <string name="clientprofile" />
+    <string name="title_search">Search</string>
+
+
     <string name="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</string>
 </resources>
