@@ -21,5 +21,6 @@
     <!-- Subjects -->
     <color name="subject_physics_normal">#009688</color>
     <color name="subject_physics_pressed">#54C4BA</color>
+    <color name="colorErrorRed">#CC0000</color>
 
 </resources>
