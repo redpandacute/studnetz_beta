@@ -14,6 +14,7 @@ public class UserProfileModel {
     private String mFirstname, mLastname, mDescription, mSchool, mProfilePicturePath;
     private JSONObject mJSON;
     private int mGrade;
+    private static final String DUMMY_PROFILEPICTURE_PATH = "PATH";
 
     public UserProfileModel(JSONObject mJSON, Context mContext) throws JSONException, IOException {
 
@@ -25,7 +26,15 @@ public class UserProfileModel {
         this.mGrade = mJSON.getInt("mGrade");
 
         if(!mJSON.has("mProfilePicturePath")) {
-            this.mProfilePicturePath = new CacheManager(mContext).createCachePicture(mJSON.getString("mProfilePictureBLOB"));
+            if(mJSON.getString("mProfilePictureBLOB").equals("0")) {
+                this.mProfilePicturePath = DUMMY_PROFILEPICTURE_PATH;
+            } else {
+                this.mProfilePicturePath = new CacheManager(mContext).createCachePicture(mJSON.getString("mProfilePictureBLOB"));
+            }
+
+            mJSON.remove("mProfilePictureBLOB");
+            mJSON.put("mProfilePicturePath", this.mProfilePicturePath);
+
         } else {
             this.mProfilePicturePath = mJSON.getString("mProfilePicturePath");
         }

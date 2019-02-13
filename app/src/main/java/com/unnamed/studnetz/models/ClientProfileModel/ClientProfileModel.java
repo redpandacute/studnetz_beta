@@ -1,18 +1,22 @@
 package com.unnamed.studnetz.models.ClientProfileModel;
 
+import android.content.Context;
+
+import com.unnamed.studnetz.util.CacheManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class ClientProfileModel {
 
     private String mFirstname, mLastname, mDescription, mSchool, mProfilePicturePath, mEmail, mPasswordHash;
     private JSONObject mJSON;
     private int mGrade;
+    private static final String DUMMY_PROFILEPICTURE_PATH = "PATH";
 
-    public ClientProfileModel(JSONObject mJSON) throws JSONException {
-
-        this.mJSON = mJSON;
-
+    public ClientProfileModel(JSONObject mJSON, Context mContext) throws JSONException, IOException {
 
         this.mFirstname = mJSON.getString("mFirstname");
         this.mLastname = mJSON.getString("mLastname");
@@ -23,6 +27,21 @@ public class ClientProfileModel {
 
         this.mGrade = mJSON.getInt("mGrade");
 
+        if(!mJSON.has("mProfilePicturePath")) {
+            if(mJSON.getString("mProfilePictureBLOB").equals("0")) {
+                this.mProfilePicturePath = DUMMY_PROFILEPICTURE_PATH;
+            } else {
+                this.mProfilePicturePath = new CacheManager(mContext).createCachePicture(mJSON.getString("mProfilePictureBLOB"));
+            }
+
+            mJSON.remove("mProfilePictureBLOB");
+            mJSON.put("mProfilePicturePath", this.mProfilePicturePath);
+
+        } else {
+            this.mProfilePicturePath = mJSON.getString("mProfilePicturePath");
+        }
+
+        this.mJSON = mJSON;
     }
 
     //ACCESSOR FUNCTIONS
