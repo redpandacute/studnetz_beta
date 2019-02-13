@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".register.register_email">
+    tools:context=".LoginRegister.register.register_email">
 
 
     <!-- TODO: Update blank fragment layout -->

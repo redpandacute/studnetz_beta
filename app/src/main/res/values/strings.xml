@@ -9,7 +9,13 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- sign in and -up -->
+    <string name ="email">Email</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="signup_info_question">Don\'t have an account?</string>
+    <string name="signup_info">SIGN UP NOW</string>
+
     <string name="email_hint">Insert your email</string>
+
     <string name="next">Next</string>
     <string name="signup">Sign up</string>
     <string name="signin">Sign in</string>

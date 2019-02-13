@@ -7,13 +7,15 @@ import com.unnamed.studnetz.util.CacheManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class UserProfileModel {
 
     private String mFirstname, mLastname, mDescription, mSchool, mProfilePicturePath;
     private JSONObject mJSON;
     private int mGrade;
 
-    public UserProfileModel(JSONObject mJSON, Context mContext) throws JSONException {
+    public UserProfileModel(JSONObject mJSON, Context mContext) throws JSONException, IOException {
 
         this.mFirstname = mJSON.getString("mFirstname");
         this.mLastname = mJSON.getString("mLastname");

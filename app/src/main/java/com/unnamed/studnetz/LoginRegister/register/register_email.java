@@ -1,4 +1,4 @@
-package com.unnamed.studnetz.register;
+package com.unnamed.studnetz.LoginRegister.register;
 
 import android.content.Context;
 import android.net.Uri;

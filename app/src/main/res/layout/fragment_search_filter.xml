@@ -28,7 +28,4 @@
         android:textColor="@color/colorWhite"
         android:textSize="24sp" />
 
-
-
-
 </RelativeLayout>
