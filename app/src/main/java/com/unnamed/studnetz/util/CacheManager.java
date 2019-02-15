@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class CacheManager {
 
-    Context mContext;
+    private Context mContext;
 
     public CacheManager(Context context) {
         this.mContext = context;
