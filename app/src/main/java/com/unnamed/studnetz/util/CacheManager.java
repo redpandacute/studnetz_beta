@@ -14,8 +14,8 @@ public class CacheManager {
 
     Context mContext;
 
-    public CacheManager(Context mContext) {
-        this.mContext = mContext;
+    public CacheManager(Context context) {
+        this.mContext = context;
     }
 
     public String createCachePicture(String pictureBLOB) throws IOException {

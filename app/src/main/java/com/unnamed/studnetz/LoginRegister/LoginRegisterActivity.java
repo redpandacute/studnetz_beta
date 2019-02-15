@@ -1,5 +1,6 @@
 package com.unnamed.studnetz.LoginRegister;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -50,5 +51,10 @@ public class LoginRegisterActivity extends AppCompatActivity implements ChangeLo
     @Override
     public void ChangeFragment(Fragment fragment,boolean addToBackStack) {
         replaceFragment(fragment, addToBackStack);
+    }
+
+    @Override
+    public Context getContext() {
+        return this.getBaseContext();
     }
 }

@@ -16,7 +16,7 @@ import com.unnamed.studnetz.LoginRegister.ChangeLoginRegisterFragment;
 import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.R;
 
-public class RegisterFragment extends Fragment implements View.OnClickListener{
+public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     ChangeLoginRegisterFragment mChangeFragment;
 
@@ -52,6 +52,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         super.onAttach(context);
         if(context instanceof ChangeLoginRegisterFragment){
             mChangeFragment = (ChangeLoginRegisterFragment) context;
+            mChangeFragment.getContext(); //::TEST::
         }else{
             throw new RuntimeException(context.toString() + " must implement ChangeLoginRegisterFragment");
         }
