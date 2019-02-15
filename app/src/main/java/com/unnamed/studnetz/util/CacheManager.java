@@ -18,25 +18,25 @@ public class CacheManager {
         this.mContext = mContext;
     }
 
-    public String createCachePicture(String mPictureBLOB) throws IOException {
+    public String createCachePicture(String pictureBLOB) throws IOException {
         //Creating a temporary File to store the picture in
-        File mCacheDir = mContext.getCacheDir(), mTempFile;
+        File cacheDir = mContext.getCacheDir(), tempFile;
 
         try {
-            mTempFile = File.createTempFile("PictureFile" + String.valueOf(System.currentTimeMillis()), ".png", mCacheDir);
+            tempFile = File.createTempFile("PictureFile" + String.valueOf(System.currentTimeMillis()), ".png", cacheDir);
         } catch (IOException e) {
-            mTempFile = new File(mCacheDir, "PictureFile" + String.valueOf(System.currentTimeMillis()) + ".png");
+            tempFile = new File(cacheDir, "PictureFile" + String.valueOf(System.currentTimeMillis()) + ".png");
         }
 
         //Compressing the Picture into the created File
-        Bitmap mBitmap = decodeBASE64(mPictureBLOB);
-        FileOutputStream mOut = new FileOutputStream(mTempFile);
+        Bitmap mBitmap = decodeBASE64(pictureBLOB);
+        FileOutputStream mOut = new FileOutputStream(tempFile);
 
         mBitmap.compress(Bitmap.CompressFormat.PNG, 100, mOut);
 
         mOut.close();
 
-        return mTempFile.getPath();
+        return tempFile.getPath();
     }
 
     //PICTURE CONVERSIONS

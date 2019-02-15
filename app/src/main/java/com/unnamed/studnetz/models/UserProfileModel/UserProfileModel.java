@@ -16,30 +16,30 @@ public class UserProfileModel {
     private int mGrade;
     private static final String DUMMY_PROFILEPICTURE_PATH = "PATH";
 
-    public UserProfileModel(JSONObject mJSON, Context mContext) throws JSONException, IOException {
+    public UserProfileModel(JSONObject JSON, Context context) throws JSONException, IOException {
 
-        this.mFirstname = mJSON.getString("mFirstname");
-        this.mLastname = mJSON.getString("mLastname");
-        this.mDescription = mJSON.getString("mDescription");
-        this.mSchool = mJSON.getString("mSchool");
+        this.mFirstname = JSON.getString("Firstname");
+        this.mLastname = JSON.getString("Lastname");
+        this.mDescription = JSON.getString("Description");
+        this.mSchool = JSON.getString("School");
 
-        this.mGrade = mJSON.getInt("mGrade");
+        this.mGrade = JSON.getInt("Grade");
 
-        if(!mJSON.has("mProfilePicturePath")) {
-            if(mJSON.getString("mProfilePictureBLOB").equals("0")) {
+        if(!JSON.has("ProfilePicturePath")) {
+            if(JSON.getString("ProfilePictureBLOB").equals("0")) {
                 this.mProfilePicturePath = DUMMY_PROFILEPICTURE_PATH;
             } else {
-                this.mProfilePicturePath = new CacheManager(mContext).createCachePicture(mJSON.getString("mProfilePictureBLOB"));
+                this.mProfilePicturePath = new CacheManager(context).createCachePicture(JSON.getString("ProfilePictureBLOB"));
             }
 
-            mJSON.remove("mProfilePictureBLOB");
-            mJSON.put("mProfilePicturePath", this.mProfilePicturePath);
+            JSON.remove("ProfilePictureBLOB");
+            JSON.put("ProfilePicturePath", this.mProfilePicturePath);
 
         } else {
-            this.mProfilePicturePath = mJSON.getString("mProfilePicturePath");
+            this.mProfilePicturePath = JSON.getString("mProfilePicturePath");
         }
 
-        this.mJSON = mJSON;
+        this.mJSON = JSON;
     }
 
     //ACCESSOR FUNCTIONS
@@ -76,32 +76,32 @@ public class UserProfileModel {
 
     public void setmFirstname(String mFirstname) throws JSONException {
         this.mFirstname = mFirstname;
-        this.mJSON.put("mFirstname", mFirstname);
+        this.mJSON.put("Firstname", mFirstname);
     }
 
     public void setmLastname(String mLastname) throws JSONException {
         this.mLastname = mLastname;
-        this.mJSON.put("mLastname", mLastname);
+        this.mJSON.put("Lastname", mLastname);
     }
 
     public void setmDescription(String mDescription) throws JSONException {
         this.mDescription = mDescription;
-        this.mJSON.put("mDescription", mDescription);
+        this.mJSON.put("Description", mDescription);
     }
 
     public void setmSchool(String mSchool) throws JSONException {
         this.mSchool = mSchool;
-        this.mJSON.put("mSchool", mSchool);
+        this.mJSON.put("School", mSchool);
     }
 
     public void setmProfilePicturePath(String mProfilePicturePath) throws JSONException {
         this.mProfilePicturePath = mProfilePicturePath;
-        this.mJSON.put("mProfilePicturePath", mProfilePicturePath);
+        this.mJSON.put("ProfilePicturePath", mProfilePicturePath);
     }
 
     public void setmGrade(int mGrade) throws JSONException {
         this.mGrade = mGrade;
-        this.mJSON.put("mGrade", mGrade);
+        this.mJSON.put("Grade", mGrade);
     }
 
 }
