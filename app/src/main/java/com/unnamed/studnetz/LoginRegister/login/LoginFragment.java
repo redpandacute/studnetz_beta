@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.unnamed.studnetz.LoginRegister.ChangeLoginRegisterFragment;
+import com.unnamed.studnetz.LoginRegister.register.RegisterFragment;
 import com.unnamed.studnetz.R;
 import com.unnamed.studnetz.main.fragments.HomeFragment;
 
@@ -28,7 +29,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     Button mLoginButton;
 
     TextView mLoginSignUp;
-    TextView mLoginSignUpNow;
     TextView mLoginErrorText;
 
     TextView mForgotPassword;
@@ -51,8 +51,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mLoginErrorText = view.findViewById(R.id.login_error_text);
         mLoginSignUp = view.findViewById(R.id.login_signup);
         mLoginSignUp.setOnClickListener(this);
-        mLoginSignUpNow = view.findViewById(R.id.login_signupnow);
-        mLoginSignUpNow.setOnClickListener(this);
         mForgotPassword= view.findViewById(R.id.login_forgot_password);
         mForgotPassword.setOnClickListener(this);
 
@@ -69,7 +67,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         if(context instanceof ChangeLoginRegisterFragment){
             mChangeFragment = (ChangeLoginRegisterFragment) context;
         }else{
-            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement ChangeLoginRegisterFragment");
         }
     }
 
@@ -94,8 +92,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.login_signup:
-            case R.id.login_signupnow:
-                mChangeFragment.ChangeFragment(R.id.login_signup);
+                mChangeFragment.ChangeFragment(new RegisterFragment(), true);
                 break;
         }
     }

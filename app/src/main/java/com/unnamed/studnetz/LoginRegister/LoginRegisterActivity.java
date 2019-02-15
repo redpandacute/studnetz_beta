@@ -37,6 +37,9 @@ public class LoginRegisterActivity extends AppCompatActivity implements ChangeLo
     }
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack){
+        if(fragment == null){
+            return;
+        }
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.login_register_fragment_container, fragment);
         if(addToBackStack)
@@ -45,14 +48,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements ChangeLo
     }
 
     @Override
-    public void ChangeFragment(int id) {
-        switch (id){
-            case R.id.login_signupnow:
-            case R.id.login_signup:
-                replaceFragment(new RegisterFragment(), true);
-
-                break;
-        }
-
+    public void ChangeFragment(Fragment fragment,boolean addToBackStack) {
+        replaceFragment(fragment, addToBackStack);
     }
 }
