@@ -1,5 +1,6 @@
 package com.unnamed.studnetz.LoginRegister.register;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,12 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.unnamed.studnetz.LoginRegister.ChangeLoginRegisterFragment;
+import com.unnamed.studnetz.LoginRegister.LoginRegisterActivity;
 import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.R;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
-    ChangeLoginRegisterFragment mChangeFragment;
+    LoginRegisterActivity mChangeFragment;
 
 
 
@@ -51,12 +53,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         if(context instanceof ChangeLoginRegisterFragment){
-            mChangeFragment = (ChangeLoginRegisterFragment) context;
-            mChangeFragment.getContext(); //::TEST::
+            mChangeFragment = (LoginRegisterActivity) context;
         }else{
             throw new RuntimeException(context.toString() + " must implement ChangeLoginRegisterFragment");
         }
     }
+
 
     @Override
     public void onDetach() {
@@ -118,7 +120,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.register_signin:
-                mChangeFragment.ChangeFragment(new LoginFragment(), false);
+                mChangeFragment.onLoginSelected();
                 break;
 
             case R.id.register_signup_next_button:
@@ -135,5 +137,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 updateButtons();
                 break;
         }
+    }
+
+    public interface RegisterFragmentInterface {
+        public void onRegistration(); //Example
+        public void onLoginSelected();
     }
 }

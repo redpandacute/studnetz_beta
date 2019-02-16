@@ -13,13 +13,14 @@ import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragment;
 import com.unnamed.studnetz.R;
 
-public class LoginRegisterActivity extends AppCompatActivity implements ChangeLoginRegisterFragment{
+public class LoginRegisterActivity extends AppCompatActivity implements RegisterFragment.RegisterFragmentInterface {
 
     LoginFragment mLoginFragment;
     final static String LOGIN_FRAGMENT_TAG = "login_fragment";
 
     FragmentManager fm;
 
+    private RegisterFragment mRegisterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,20 @@ public class LoginRegisterActivity extends AppCompatActivity implements ChangeLo
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void ChangeFragment(Fragment fragment,boolean addToBackStack) {
+  /*  public void ChangeFragment(Fragment fragment,boolean addToBackStack) {
         replaceFragment(fragment, addToBackStack);
+    }
+*/ //TODO: chammer glaubs useneh und andersch löse via interface
+
+
+    @Override
+    public void onRegistration() {
+        //nur es biispiel zum teste
     }
 
     @Override
-    public Context getContext() {
-        return this.getBaseContext();
+    public void onLoginSelected() {
+        //TODO: CHANGE TO LOGIN FRAGMENT
+        //(lösig via interface xD), mer chönti aber au e allgemeini Change Fragment methode mache, ich glaubs aber so wäris schöner.
     }
 }
