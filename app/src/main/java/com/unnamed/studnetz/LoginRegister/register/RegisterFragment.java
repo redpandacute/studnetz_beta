@@ -106,6 +106,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         }else if(mBackButton.getVisibility() == View.INVISIBLE){
             mBackButton.setVisibility(View.VISIBLE);
         }
+
+        if(mActiveRegisterFragment == mRegisterFragmentList.length-1){
+            mNextButton.setText(R.string.send);
+        }else{
+            mNextButton.setText(R.string.next);
+        }
     }
 
     @Override
@@ -116,8 +122,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.register_signup_next_button:
+                if(!(mActiveRegisterFragment == mRegisterFragmentList.length-1)) {
                 replaceChildFragment(getNextFragment(true), true);
                 updateButtons();
+                }else{
+
+                }
                 break;
 
             case R.id.register_signup_back_button:

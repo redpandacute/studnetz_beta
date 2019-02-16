@@ -18,6 +18,7 @@
 
     <string name="next">Next</string>
     <string name="back">Back</string>
+    <string name="send">Send</string>
 
     <string name="signup">Sign up</string>
     <string name="signin">Sign in</string>
