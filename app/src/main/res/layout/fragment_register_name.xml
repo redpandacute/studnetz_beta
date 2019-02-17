@@ -5,40 +5,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/text_register_name_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="0dp"
+        android:textColor="@color/colorErrorRed"
+        android:textSize="@dimen/normal_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
-        android:id="@+id/register_firstname_edittext"
+        android:id="@+id/edittext_register_firstname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_text_input"
         android:hint="@string/firstname_hint"
         android:inputType="textPersonName"
         android:textAlignment="textStart"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
+        android:textSize="@dimen/input_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
+        app:layout_constraintTop_toBottomOf="@+id/text_register_name_error"></EditText>
 
     <EditText
-        android:id="@+id/register_lastname_edittext"
-        android:layout_width="0dp"
+        android:id="@+id/edittext_register_lastname"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_text_input"
         android:hint="@string/lastname_hint"
         android:inputType="textPersonName"
         android:textAlignment="textStart"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
+        android:textSize="@dimen/input_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register_firstname_edittext"></EditText>
+        app:layout_constraintTop_toBottomOf="@id/edittext_register_firstname"></EditText>
+
+    <Button
+        android:id="@+id/button_register_name_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_view"
+        android:background="@drawable/basic_rounded_button"
+        android:text="@string/finish"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/normal_button_font_size"
+        app:layout_constraintBottom_toTopOf="@+id/button_register_name_back"
+        android:enabled="false"
+        tools:layout_editor_absoluteX="0dp"></Button>
+
+    <Button
+        android:id="@+id/button_register_name_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/register_bottom_margin"
+        android:background="@drawable/basic_rounded_button"
+        android:text="@string/back"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/normal_button_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        android:visibility="visible"></Button>
 
 </android.support.constraint.ConstraintLayout>

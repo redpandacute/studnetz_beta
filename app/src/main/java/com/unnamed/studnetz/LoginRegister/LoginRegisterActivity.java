@@ -11,58 +11,93 @@ import android.widget.Toast;
 
 import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragment;
+import com.unnamed.studnetz.LoginRegister.register.RegisterFragmentChildInteractionListener;
 import com.unnamed.studnetz.R;
 
-public class LoginRegisterActivity extends AppCompatActivity implements RegisterFragment.RegisterFragmentInterface {
+public class LoginRegisterActivity extends AppCompatActivity implements LoginFragment.onLoginFragmentInteractionListener, RegisterFragment.onRegisterFragmentInteractionListener, RegisterFragmentChildInteractionListener {
 
-    LoginFragment mLoginFragment;
-    final static String LOGIN_FRAGMENT_TAG = "login_fragment";
+    private LoginFragment mLoginFragment;
+    private RegisterFragment mRegisterFragment;
+
+    private final static String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
+    private final static String REGISTER_FRAGMENT_TAG = "REGISTER_FRAGMENT_TAG";
 
     FragmentManager fm;
-
-    private RegisterFragment mRegisterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-         fm = getSupportFragmentManager();
+        mLoginFragment = new LoginFragment();
+        mRegisterFragment = new RegisterFragment();
+
+        fm = getSupportFragmentManager();
 
         if(savedInstanceState == null) {
+
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.add(R.id.login_register_fragment_container, new LoginFragment(),LOGIN_FRAGMENT_TAG);
+            fragmentTransaction.add(R.id.flcontainer_login_register_fragment, mLoginFragment);
             fragmentTransaction.commitNow();
+
         }else{
+
             mLoginFragment = (LoginFragment) fm.findFragmentByTag(LOGIN_FRAGMENT_TAG);
+            mRegisterFragment = (RegisterFragment) fm.findFragmentByTag(REGISTER_FRAGMENT_TAG);
+
         }
     }
+
+
+    @Override
+    public void onLoginButtonPressed(View v) {
+        switch (v.getId()){
+            case R.id.text_login_forgot:
+                Toast.makeText(getApplicationContext(),"Open Forgot Password", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.text_login_register:
+                replaceFragment(mRegisterFragment, true);
+                break;
+        }
+    }
+
+    @Override
+    public void onRegisterButtonPressed(View v) {
+        switch (v.getId()){
+            case R.id.register_login:
+                replaceFragment(mLoginFragment, false, null);
+                break;
+
+        }
+    }
+
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack){
         if(fragment == null){
             return;
         }
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.login_register_fragment_container, fragment);
+        fragmentTransaction.replace(R.id.flcontainer_login_register_fragment, fragment);
+
         if(addToBackStack)
             fragmentTransaction.addToBackStack(null);
+
         fragmentTransaction.commit();
     }
 
-  /*  public void ChangeFragment(Fragment fragment,boolean addToBackStack) {
-        replaceFragment(fragment, addToBackStack);
-    }
-*/ //TODO: chammer glaubs useneh und andersch löse via interface
+    private void replaceFragment(Fragment fragment, boolean addToBackStack, String clearBackStackUpTo){
+        fm.popBackStack(clearBackStackUpTo ,FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-
-    @Override
-    public void onRegistration() {
-        //nur es biispiel zum teste
+        replaceFragment(fragment,addToBackStack);
     }
 
     @Override
-    public void onLoginSelected() {
-        //TODO: CHANGE TO LOGIN FRAGMENT
-        //(lösig via interface xD), mer chönti aber au e allgemeini Change Fragment methode mache, ich glaubs aber so wäris schöner.
+    public void nextRegisterChildFragment(String[] data) {
+        mRegisterFragment.nextFragment(data);
+    }
+
+    @Override
+    public void backRegisterChildFragment() {
+        mRegisterFragment.backFragment();
     }
 }

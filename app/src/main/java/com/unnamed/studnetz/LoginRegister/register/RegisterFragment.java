@@ -1,146 +1,145 @@
 package com.unnamed.studnetz.LoginRegister.register;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.unnamed.studnetz.LoginRegister.ChangeLoginRegisterFragment;
 import com.unnamed.studnetz.LoginRegister.LoginRegisterActivity;
 import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.R;
 
-public class RegisterFragment extends Fragment implements View.OnClickListener {
+public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    LoginRegisterActivity mChangeFragment;
+    public interface onRegisterFragmentInteractionListener {
+        void onRegisterButtonPressed(View v);
+    }
 
+    private onRegisterFragmentInteractionListener mListener;
 
+    FragmentManager cfm;
 
-    TextView mRegisterSignIn;
-
-    Button mNextButton;
-    Button mBackButton;
+    TextView mButtonLogin;
 
     private int mActiveRegisterFragment;
-    private Fragment[] mRegisterFragmentList = new Fragment[]{new FragmentRegisterEmail(),new FragmentRegisterPassword(), new FragmentRegisterName()};
+    private Fragment[] mRegisterFragmentList = new Fragment[]{new RegisterEmailFragment(),new RegisterPasswordFragment(), new RegisterNameFragment()};
+
+    private String mEmail;
+    private String mPassword;
+    private String mFirstName;
+    private String mLastName;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, null);
 
-        mNextButton = view.findViewById(R.id.register_signup_next_button);
-        mNextButton.setOnClickListener(this);
-        mBackButton = view.findViewById(R.id.register_signup_back_button);
-        mBackButton.setOnClickListener(this);
+        cfm = getChildFragmentManager();
 
-        replaceChildFragment(mRegisterFragmentList[0], false);
+        mButtonLogin = view.findViewById(R.id.register_login);
+        mButtonLogin.setOnClickListener(this);
 
-        mRegisterSignIn = view.findViewById(R.id.register_signin);
-        mRegisterSignIn.setOnClickListener(this);
-
+        if(savedInstanceState == null) {
+            FragmentTransaction fragmentTransaction = cfm.beginTransaction();
+            fragmentTransaction.add(R.id.flcontainer_register_fragment, mRegisterFragmentList[0]);
+            fragmentTransaction.commitNow();
+        }
 
         return view;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if(context instanceof ChangeLoginRegisterFragment){
-            mChangeFragment = (LoginRegisterActivity) context;
+    public void onClick(View v) {
+        mListener.onRegisterButtonPressed(v);
+    }
+
+
+    public void nextFragment(String[] data) {
+        if(mActiveRegisterFragment>=mRegisterFragmentList.length){
+            mActiveRegisterFragment = mRegisterFragmentList.length-1;
+        }else if(mActiveRegisterFragment < 0){
+            mActiveRegisterFragment = 0;
+        }
+
+        saveData(data);
+
+        if(mActiveRegisterFragment == mRegisterFragmentList.length-1){
+            // Send information, Complete registration process
+            Toast.makeText(getContext(),"DATA: Email: " + mEmail + " Password: " + mPassword + " Name: " + mFirstName + " " + mLastName, Toast.LENGTH_LONG).show();
         }else{
-            throw new RuntimeException(context.toString() + " must implement ChangeLoginRegisterFragment");
+            mActiveRegisterFragment++;
+            replaceFragment(mRegisterFragmentList[mActiveRegisterFragment],true);
         }
     }
 
+    public void saveData(String[] data){
+        if(mActiveRegisterFragment==0) {
+            mEmail = data[0];
+        }else if(mActiveRegisterFragment==1){
+            mPassword = data[0];
+        }else if(mActiveRegisterFragment==2){
+            mFirstName = data[0];
+            mLastName = data[1];
+        }
+    }
+
+    //TODO: modify backStack when going back
+
+
+    public void backFragment() {
+        if(mActiveRegisterFragment>=mRegisterFragmentList.length){
+            mActiveRegisterFragment = mRegisterFragmentList.length-1;
+        }else if(mActiveRegisterFragment < 0){
+            mActiveRegisterFragment = 0;
+        }
+
+        if(mActiveRegisterFragment != 0){
+            mActiveRegisterFragment--;
+            replaceFragment(mRegisterFragmentList[mActiveRegisterFragment],false);
+        }
+    }
+
+    private void replaceFragment(Fragment fragment, boolean addToBackStack){
+        if(fragment == null){
+            return;
+        }
+        FragmentTransaction fragmentTransaction = cfm.beginTransaction();
+        fragmentTransaction.replace(R.id.flcontainer_register_fragment, fragment);
+
+        if(addToBackStack)
+            fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.commit();
+    }
+
+    private void replaceFragment(Fragment fragment, boolean addToBackStack, String clearBackStackUpTo){
+        cfm.popBackStack(clearBackStackUpTo ,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        replaceFragment(fragment,addToBackStack);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if( context instanceof onRegisterFragmentInteractionListener){
+            mListener = (onRegisterFragmentInteractionListener) context;
+        }else{
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mChangeFragment = null;
+        mListener = null;
     }
 
-    private boolean replaceChildFragment(Fragment fragment, boolean addToBackStack){
-        if(fragment == null){
-            return false;
-        }
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_register_container, fragment);
-        if(addToBackStack)
-            fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-        return true;
-    }
-
-    private Fragment getNextFragment(boolean next){
-        Fragment nextFragment;
-
-        if(next){
-
-            if(mActiveRegisterFragment == mRegisterFragmentList.length-1){
-                nextFragment = null;
-            }else{
-                mActiveRegisterFragment++;
-                nextFragment = mRegisterFragmentList[mActiveRegisterFragment];
-            }
-
-        }else{
-            if(mActiveRegisterFragment == 0){
-                nextFragment = null;
-            }else{
-                mActiveRegisterFragment--;
-                nextFragment = mRegisterFragmentList[mActiveRegisterFragment];
-            }
-        }
-
-        return nextFragment;
-    }
-
-    private void updateButtons(){
-        if(mActiveRegisterFragment == 0){
-            mBackButton.setVisibility(View.INVISIBLE);
-        }else if(mBackButton.getVisibility() == View.INVISIBLE){
-            mBackButton.setVisibility(View.VISIBLE);
-        }
-
-        if(mActiveRegisterFragment == mRegisterFragmentList.length-1){
-            mNextButton.setText(R.string.send);
-        }else{
-            mNextButton.setText(R.string.next);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.register_signin:
-                mChangeFragment.onLoginSelected();
-                break;
-
-            case R.id.register_signup_next_button:
-                if(!(mActiveRegisterFragment == mRegisterFragmentList.length-1)) {
-                replaceChildFragment(getNextFragment(true), true);
-                updateButtons();
-                }else{
-
-                }
-                break;
-
-            case R.id.register_signup_back_button:
-                replaceChildFragment(getNextFragment(false), true);
-                updateButtons();
-                break;
-        }
-    }
-
-    public interface RegisterFragmentInterface {
-        public void onRegistration(); //Example
-        public void onLoginSelected();
-    }
 }

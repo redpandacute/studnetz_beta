@@ -14,11 +14,13 @@
     <string name="login_signup_info">Don\'t have an account?\n<b><font color="#008577">SIGN UP NOW</font></b></string>
     <string name="register_signin_info">Already have an account?\n<b><font color="#008577">SIGN IN NOW</font></b></string>
 
+    <string name="register_subtitle">create an account</string>
+
     <string name="email_hint">Insert your email</string>
 
     <string name="next">Next</string>
     <string name="back">Back</string>
-    <string name="send">Send</string>
+    <string name="finish">Finish</string>
 
     <string name="signup">Sign up</string>
     <string name="signin">Sign in</string>
