@@ -77,11 +77,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             mLoginProgressBar.setVisibility(View.VISIBLE);
 
-            //TODO: Sign in
+            // Sign in
 
 
         }else{
-            mLoginErrorText.setText(R.string.login_empty_field_error);
+            mLoginErrorText.setText(R.string.input_field_empty_error);
         }
 
     }

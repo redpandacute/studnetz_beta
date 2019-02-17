@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_view"
         android:background="@drawable/basic_rounded_button"
-        android:text="@string/finish"
+        android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/normal_button_font_size"
@@ -81,6 +81,6 @@
         android:textSize="@dimen/normal_button_font_size"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="0dp"
-        android:visibility="visible"></Button>
+        android:visibility="invisible"></Button>
 
 </android.support.constraint.ConstraintLayout>

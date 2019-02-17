@@ -8,13 +8,18 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.unnamed.studnetz.R;
+
+import org.w3c.dom.Text;
 
 public class RegisterPasswordFragment extends Fragment implements View.OnClickListener, TextWatcher {
 
@@ -22,8 +27,12 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
     EditText mPasswordField;
     EditText mConfPasswordField;
 
+    TextView mErrorText;
+
     Button mNextButton;
     Button mBackButton;
+
+    private int minPasswordLength = 8;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register_password, null);
@@ -32,6 +41,26 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
         mPasswordField.addTextChangedListener(this);
         mConfPasswordField = view.findViewById(R.id.edittextregister_confpassword);
         mConfPasswordField.addTextChangedListener(this);
+        mConfPasswordField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN){
+                    switch (keyCode){
+                        case KeyEvent.KEYCODE_DPAD_DOWN:
+                        case KeyEvent.KEYCODE_ENTER:
+                            if(checkInput())
+                                mListener.nextRegisterChildFragment(new String[]{mPasswordField.getText().toString()});
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        mErrorText = view.findViewById(R.id.text_register_password_error);
 
         mNextButton = view.findViewById(R.id.button_register_password_next);
         mNextButton.setOnClickListener(this);
@@ -59,19 +88,50 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
 
     private boolean checkInput(){
 
-        if(TextUtils.isEmpty(mPasswordField.getText().toString()) || TextUtils.isEmpty(mConfPasswordField.getText().toString())){
+        String password = mPasswordField.getText().toString();
+        String confPassword = mConfPasswordField.getText().toString();
+
+        if(isInputEmpty(password, confPassword)){
+            mErrorText.setText(R.string.input_field_empty_error);
             return false;
-        }else{
-            if(!mPasswordField.getText().toString().equals(mConfPasswordField.getText().toString())){
-                return false;
-            }else{
-                return true;
-            }
+
+        }else if(!isPasswordLongEnough(password)){
+            mErrorText.setText(getString(R.string.password_to_short_error,minPasswordLength));
+            return false;
+        }else if(!doPasswordMatch(password, confPassword)){
+            mErrorText.setText(R.string.password_match_error);
+            return false;
 
         }
 
+        if(isInBlacklist(password)){
+            mErrorText.setText(R.string.common_password_error);
+        }
+
+        mErrorText.setText("");
+        return true;
+
     }
 
+    private boolean isPasswordLongEnough(String input){
+        if(input.length() < minPasswordLength){
+            return false;
+        }
+        return  true;
+    }
+
+    private boolean isInBlacklist(String input){
+        //Check if email is blacklisted
+        return false;
+    }
+
+    private boolean isInputEmpty(String password, String confPassword){
+            return TextUtils.isEmpty(password) || TextUtils.isEmpty(confPassword);
+    }
+
+    private boolean doPasswordMatch(String password, String confPassword){
+        return password.equals(confPassword);
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

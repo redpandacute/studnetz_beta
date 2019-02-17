@@ -2,6 +2,7 @@ package com.unnamed.studnetz.LoginRegister.register;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     TextView mButtonLogin;
 
     private int mActiveRegisterFragment;
-    private Fragment[] mRegisterFragmentList = new Fragment[]{new RegisterEmailFragment(),new RegisterPasswordFragment(), new RegisterNameFragment()};
+    private Fragment[] mRegisterFragmentList = new Fragment[]{new RegisterNameFragment(),new RegisterEmailFragment(),new RegisterPasswordFragment()};
 
     private String mEmail;
     private String mPassword;
@@ -51,6 +52,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             fragmentTransaction.add(R.id.flcontainer_register_fragment, mRegisterFragmentList[0]);
             fragmentTransaction.commitNow();
         }
+
+        mActiveRegisterFragment = 0;
 
         return view;
     }
@@ -72,7 +75,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
         if(mActiveRegisterFragment == mRegisterFragmentList.length-1){
             // Send information, Complete registration process
-            Toast.makeText(getContext(),"DATA: Email: " + mEmail + " Password: " + mPassword + " Name: " + mFirstName + " " + mLastName, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"DATA: " + " Name: " + mFirstName + " " + mLastName + " Email: " + mEmail + " Password: " + mPassword , Toast.LENGTH_LONG).show();
         }else{
             mActiveRegisterFragment++;
             replaceFragment(mRegisterFragmentList[mActiveRegisterFragment],true);
@@ -81,12 +84,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     public void saveData(String[] data){
         if(mActiveRegisterFragment==0) {
-            mEmail = data[0];
-        }else if(mActiveRegisterFragment==1){
-            mPassword = data[0];
-        }else if(mActiveRegisterFragment==2){
             mFirstName = data[0];
             mLastName = data[1];
+        }else if(mActiveRegisterFragment==1){
+            mEmail = data[0];
+        }else if(mActiveRegisterFragment==2){
+            mPassword = data[0];
         }
     }
 

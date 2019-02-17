@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,23 @@ public class RegisterNameFragment extends Fragment implements View.OnClickListen
         mFirstNameField.addTextChangedListener(this);
         mLastNameField = view.findViewById(R.id.edittext_register_lastname);
         mLastNameField.addTextChangedListener(this);
+        mLastNameField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN){
+                    switch (keyCode){
+                        case KeyEvent.KEYCODE_DPAD_DOWN:
+                        case KeyEvent.KEYCODE_ENTER:
+                            if(checkInput())
+                                mListener.nextRegisterChildFragment(new String[]{mFirstNameField.getText().toString(),mLastNameField.getText().toString()});
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         mNextButton = view.findViewById(R.id.button_register_name_next);
         mNextButton.setOnClickListener(this);

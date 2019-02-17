@@ -60,12 +60,6 @@
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/normal_button_font_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        android:enabled="false"
-        android:visibility="invisible"></Button>
-
-
-
-
+        tools:layout_editor_absoluteX="0dp"></Button>
 
 </android.support.constraint.ConstraintLayout>
