@@ -1,0 +1,23 @@
+runtime: php55
+api_version: 1
+
+runtime_config:
+        document_root: .
+
+handlers:
+#serve php scripts.
+- url: /(.+\.php)$
+  script: \1
+
+env_variables:
+
+  #making DB accessible
+  MYSQL_DSN: "mysql:unix_socket=/cloudsql/deep-contact-232012:europe-west1:studnetz-beta-1-db;dbname=Studnetz_beta_MySQL_DB"
+  MYSQL_USER: "root"
+  MYSQL_PASSWORD: "wjn8Abti5Ozf1zKF"
+
+  APP_LOG: errorlog
+
+beta_settings:
+        cloud_sql_instances: "deep-contact-232012:europe-west1:studnetz-beta-1-db"
+
