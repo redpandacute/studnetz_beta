@@ -75,6 +75,10 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
+#vi editor ignores
+*~
+*.swp
+
 
 #ENV
 env.php
