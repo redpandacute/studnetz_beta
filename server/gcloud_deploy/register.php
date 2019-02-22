@@ -111,7 +111,7 @@ mysqli_stmt_store_result($stmt);
 
 if(mysqli_stmt_num_row($stmt) > 0) {
 
-	mysqli_stmt_bind_result($stmt, $verf_school_id, $verification_state, $verf_firstname, $verf_lastname, $verf_grade, $active);
+	mysqli_stmt_bind_result($stmt, $verf_school_id, $verification_state, $verf_email, $verf_firstname, $verf_lastname, $verf_grade, $active_state, $instertion_date, $expiration_date);
 	
 	while($row = mysqli_stmt_fetch($stmt)) {
 		$firstname = $verf_firstname;
@@ -123,9 +123,14 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 
 	mysqli_stmt_close($stmt);
 
+	$stmt = mysqli_prepare($con, "UPDATE schoolverification_archive SET active_state = ?, insertion_date = CURDATE()");
+	mysqli_stmt_bind_param($stmt, "i", 1);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+
 	//INSERTION FOR VERIFIED USER --------------------------
 	
-	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password, verification_state) VALUES (?,?,?,?,?)");
+	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password, verification_state, creation_date) VALUES (?,?,?,?,?, CURDATE())");
 	mysqli_stmt_bind_param($stmt, "ssssi", $firstname, $lastname, $email, $password_hash, $school_verification_state);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);	
@@ -142,7 +147,7 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 	
 	$mysqli_stmt_close($stmt);
 
-	$stmt = mysqli_prepare($con, "INSERT INTO school_archive(user_id, school_id, grade) VALUES (?,?,?)");
+	$stmt = mysqli_prepare($con, "INSERT INTO school_conn(user_id, school_id, grade) VALUES (?,?,?)");
 	mysqli_stmt_bind_param($stmt, "iii", $user_id, $school_id, $grade);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
