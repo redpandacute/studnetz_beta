@@ -18,7 +18,15 @@ $connectionname = "deep-contact-232012:europe-west1:studnetz-beta-1-db";
 $con = new mysqli($servername, $username, $password, $dbname, $dbport, "/cloudsql/". $connectionname);
 
 if($con->connect_error) {
-        die("Connection failed: " . $con->connect_error);
+	
+	$response[
+		'success' => false,
+		'error' => 'DB Connection Error:' . $con->connect_error
+	];
+		
+	print_r(json_encode($response));
+
+	die("Connection failed: " . $con->connect_error);
 }
 
 $email = $_POST["email"];
@@ -72,15 +80,25 @@ if(mysqli_stmt_num_rows($stmt) > 0) {
 mysqli_stmt_close($stmt);
 
 if(!$valid) {
-	$response = array();		
-	$response['success'] = false;
-	$response['error'] = explode(";",$errorstring);
+			
+	$response[
+		'success' => false,
+		'error' => explode(";",$errorstring)
+	];
 		
 	print_r(json_encode($response));
 
 	die("An error ocurred with the userinput: " . $errorstring);
 }
 //-----------------------------------------------------
+//
+//HASHING OF PASSWORD
+$options = [
+	'cost' => 12
+];
+
+$password_hash = password_hash($password_plain, PASSWORD_BCRYPT, $options);
+
 
 //VERIFICATION ----------------------------------------
 
@@ -105,10 +123,46 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 
 	mysqli_stmt_close($stmt);
 
-//INSERTION FOR VERIFIED USER --------------------------
+	//INSERTION FOR VERIFIED USER --------------------------
 	
 	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password, verification_state) VALUES (?,?,?,?,?)");
+	mysqli_stmt_bind_param($stmt, "ssssi", $firstname, $lastname, $email, $password_hash, $school_verification_state);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);	
+
+	$stmt = mysqli_prepare($con, "SELECT user_archive.user_id WHERE user_archive.email = ?");
+	mysqli_stmt_bind_param($stmt, "s", $email);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_store_result($stmt);
+	mysqli_stmt_bind_result($stmt, $user_id_fetch);
+
+	while($row = mysqli_stmt_fetch($stmt)) {
+		$user_id = $user_id_fetch;	
+	}
 	
+	$mysqli_stmt_close($stmt);
+
+	$stmt = mysqli_prepare($con, "INSERT INTO school_archive(user_id, school_id, grade) VALUES (?,?,?)");
+	mysqli_stmt_bind_param($stmt, "iii", $user_id, $school_id, $grade);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+
+} else {
+
+	//INSERTIONS FOR UNVERIFIED USERS ----------------------
+
+	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password, verification_state) VALUES (?,?,?,?,?)");
+	mysqli_stmt_bind_param($stmt, "ssssi", $firstname, $lastname, $email, $password_hash, 0);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
 }
 
+//TODO SEND EMAIL FOR EMAIL VERIFICATION
+
+
+$response[
+	'success' => true
+];
+
+print_r(json_encode($response));
 ?>
