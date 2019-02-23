@@ -17,7 +17,7 @@ $con = new mysqli($servername, $username, $password, $dbname, $dbport, "/cloudsq
 
 if($con->connect_error) {
 	
-	$response[
+	$response = [
 		'success' => false,
 		'error' => 'DB Connection Error:' . $con->connect_error
 	];
@@ -31,7 +31,7 @@ $password_plain = $_POST['password'];
 
 if(!isset($email) || !isset($password_plain)) {
 	
-	$response[
+	$response = [
 		'success' => false,
 		'error' => '400:1:Bad Input'
 	];
@@ -47,7 +47,7 @@ mysqli_stmt_store_result($stmt);
 
 if(mysqli_stmt_num_rows($stmt) != 1) {
 	
-	$response[
+	$response = [
 		'success' => false,
 		'error' => '404:1:User not found'
 	];
@@ -61,7 +61,7 @@ mysqli_stmt_bind_result($user_id, $firstname, $lastname, $email, $password_hash,
 
 while(mysqli_stmt_fetch($stmt)) {
 	
-	$user[
+	$user = [
 		'user_id' => $user_id,
 		'firstname' => $firstname,
 		'lastname' => $lastname,
@@ -75,7 +75,7 @@ while(mysqli_stmt_fetch($stmt)) {
 
 if(!password_verify($password_plain, $user['password_hash'])) {		
 	
-	$response[
+	$response = [
 		'success' => false,
 		'error' => '401:1:Bad Password'
 	];
@@ -84,7 +84,7 @@ if(!password_verify($password_plain, $user['password_hash'])) {
 	die("401:1:Bad Password");
 }
 
-$response[
+$response = [
 	'success' => true,
 	'user' => $user
 ];

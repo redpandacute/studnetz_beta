@@ -6,6 +6,8 @@ use Google\Cloud\Storage\StorageClient;
 
 require __DIR__ . '/app_ini.php';
 
+$ACTIVE_STATE_VALUE = 1;
+
 $servername = null;
 $username = $app['mysql_user'];
 $password = $app['mysql_password'];
@@ -18,12 +20,12 @@ $connectionname = $app['connection_name'];
 $con = new mysqli($servername, $username, $password, $dbname, $dbport, "/cloudsql/". $connectionname);
 
 if($con->connect_error) {
-	
-	$response[
+
+	$response = [
 		'success' => false,
 		'error' => 'DB Connection Error:' . $con->connect_error
 	];
-		
+
 	print_r(json_encode($response));
 
 	die("Connection failed: " . $con->connect_error);
@@ -80,12 +82,12 @@ if(mysqli_stmt_num_rows($stmt) > 0) {
 mysqli_stmt_close($stmt);
 
 if(!$valid) {
-			
-	$response[
+
+	$response = [
 		'success' => false,
 		'error' => explode(";",$errorstring)
 	];
-		
+
 	print_r(json_encode($response));
 
 	die("An error ocurred with the userinput: " . $errorstring);
@@ -112,7 +114,7 @@ mysqli_stmt_store_result($stmt);
 if(mysqli_stmt_num_row($stmt) > 0) {
 
 	mysqli_stmt_bind_result($stmt, $verf_school_id, $verification_state, $verf_email, $verf_firstname, $verf_lastname, $verf_grade, $active_state, $instertion_date, $expiration_date);
-	
+
 	while($row = mysqli_stmt_fetch($stmt)) {
 		$firstname = $verf_firstname;
 		$lastname = $verf_lastname;
@@ -124,16 +126,16 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 	mysqli_stmt_close($stmt);
 
 	$stmt = mysqli_prepare($con, "UPDATE schoolverification_archive SET active_state = ?, insertion_date = CURDATE()");
-	mysqli_stmt_bind_param($stmt, "i", 1);
+	mysqli_stmt_bind_param($stmt, "i", $ACTIVE_STATE_VALUE);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 
 	//INSERTION FOR VERIFIED USER --------------------------
-	
+
 	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password_hash, account_verification_state, creation_date) VALUES (?,?,?,?,?, CURDATE())");
 	mysqli_stmt_bind_param($stmt, "ssssi", $firstname, $lastname, $email, $password_hash, $school_verification_state);
 	mysqli_stmt_execute($stmt);
-	mysqli_stmt_close($stmt);	
+	mysqli_stmt_close($stmt);
 
 	$stmt = mysqli_prepare($con, "SELECT user_archive.user_id WHERE user_archive.email = ?");
 	mysqli_stmt_bind_param($stmt, "s", $email);
@@ -142,9 +144,9 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 	mysqli_stmt_bind_result($stmt, $user_id_fetch);
 
 	while($row = mysqli_stmt_fetch($stmt)) {
-		$user_id = $user_id_fetch;	
+		$user_id = $user_id_fetch;
 	}
-	
+
 	$mysqli_stmt_close($stmt);
 
 	$stmt = mysqli_prepare($con, "INSERT INTO school_conn(user_id, school_id, grade) VALUES (?,?,?)");
@@ -165,7 +167,7 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 //TODO SEND EMAIL FOR EMAIL VERIFICATION
 
 
-$response[
+$response = [
 	'success' => true
 ];
 
