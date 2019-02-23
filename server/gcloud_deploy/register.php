@@ -12,7 +12,7 @@ $password = $app['mysql_password'];
 $dbname = $app['mysql_dbname'];
 $dbport = null;
 
-$connectionname = "deep-contact-232012:europe-west1:studnetz-beta-1-db";
+$connectionname = $app['connection_name'];
 
 //Connection to DB
 $con = new mysqli($servername, $username, $password, $dbname, $dbport, "/cloudsql/". $connectionname);
@@ -130,7 +130,7 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 
 	//INSERTION FOR VERIFIED USER --------------------------
 	
-	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password, verification_state, creation_date) VALUES (?,?,?,?,?, CURDATE())");
+	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password_hash, account_verification_state, creation_date) VALUES (?,?,?,?,?, CURDATE())");
 	mysqli_stmt_bind_param($stmt, "ssssi", $firstname, $lastname, $email, $password_hash, $school_verification_state);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);	
@@ -156,8 +156,8 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 
 	//INSERTIONS FOR UNVERIFIED USERS ----------------------
 
-	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password, verification_state) VALUES (?,?,?,?,?)");
-	mysqli_stmt_bind_param($stmt, "ssssi", $firstname, $lastname, $email, $password_hash, 0);
+	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password_hash, creation_date) VALUES (?,?,?,?, CURDATE())");
+	mysqli_stmt_bind_param($stmt, "ssss", $firstname, $lastname, $email, $password_hash);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 }
