@@ -40,7 +40,8 @@ if(!isset($email) || !isset($password_plain)) {
 	die("400:1:Bad Input");
 }
 
-$stmt = mysqli_prepare($conn, "SELECT user_archive.* FROM user_archive WHERE email = ?");
+
+$stmt = mysqli_prepare($con, "SELECT user_archive.* FROM user_archive WHERE email = ?");
 mysqli_stmt_bind_param($stmt, 's', $email);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
@@ -56,10 +57,10 @@ if(mysqli_stmt_num_rows($stmt) != 1) {
 	die("404:1:User not found");
 }
 
-mysqli_stmt_bind_result($user_id, $firstname, $lastname, $email, $password_hash, $account_verification_state, $email_vefification_state, $creation_date);
+mysqli_stmt_bind_result($stmt, $user_id, $firstname, $lastname, $email, $password_hash, $account_verification_state, $email_vefification_state, $creation_date);
 
 
-while(mysqli_stmt_fetch($stmt)) {
+while($row = mysqli_stmt_fetch($stmt)) {
 	
 	$user = [
 		'user_id' => $user_id,
@@ -72,6 +73,8 @@ while(mysqli_stmt_fetch($stmt)) {
 		'creation_date' => $creation_date
 	];
 }
+
+mysqli_stmt_close($stmt);
 
 if(!password_verify($password_plain, $user['password_hash'])) {		
 	

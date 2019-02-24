@@ -101,17 +101,16 @@ $options = [
 
 $password_hash = password_hash($password_plain, PASSWORD_BCRYPT, $options);
 
-
 //VERIFICATION ----------------------------------------
 
 $school_verification_state = 0;
 
-$stmt = mysqli_prepare($con, "SELECT schooverification_archive.* WHERE schoolverification_archive.email = ?");
+$stmt = mysqli_prepare($con, "SELECT schooverification_archive.* FROM schoolverification_archive WHERE schoolverification_archive.email = ?");
 mysqli_stmt_bind_param($stmt, "s", $email);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
 
-if(mysqli_stmt_num_row($stmt) > 0) {
+if(mysqli_stmt_num_rows($stmt) > 0) {
 
 	mysqli_stmt_bind_result($stmt, $verf_school_id, $verification_state, $verf_email, $verf_firstname, $verf_lastname, $verf_grade, $active_state, $instertion_date, $expiration_date);
 
@@ -157,11 +156,12 @@ if(mysqli_stmt_num_row($stmt) > 0) {
 } else {
 
 	//INSERTIONS FOR UNVERIFIED USERS ----------------------
-
+	
 	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password_hash, creation_date) VALUES (?,?,?,?, CURDATE())");
 	mysqli_stmt_bind_param($stmt, "ssss", $firstname, $lastname, $email, $password_hash);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
+	
 }
 
 //TODO SEND EMAIL FOR EMAIL VERIFICATION

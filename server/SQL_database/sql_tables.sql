@@ -3,7 +3,7 @@ CREATE TABLE user_archive(
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
-	password_hash VARCHAR(255) NOT NULL,
+	password_hash VARCHAR(255)  NOT NULL,
 	account_verification_state INT DEFAULT 0,
 	email_verification_state INT DEFAULT 0,
 	creation_date DATE DEFAULT NULL,
@@ -25,13 +25,13 @@ CREATE TABLE schooltype_list(
 );
 
 CREATE TABLE school_list(
-	school_id INT AUTO INCREMENT,
+	school_id INT AUTO_INCREMENT,
 	schooltype_id INT NOT NULL,
-       	schoolname VARCHAR(255) NOT NULL,
+	schoolname VARCHAR(255) NOT NULL,
 	schoolgrades INT,
 	PRIMARY KEY(school_id),
 	FOREIGN KEY(schooltype_id) REFERENCES schooltype_list(schooltype_id)
-);	
+);
 
 CREATE TABLE school_conn(
 	user_id INT NOT NULL,
@@ -70,6 +70,3 @@ CREATE TABLE subject_conn(
 	FOREIGN KEY(user_id) REFERENCES user_archive(user_id),
 	FOREIGN KEY(subject_id) REFERENCES subject_list(subject_id)
 );
-
-
-
