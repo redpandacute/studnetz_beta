@@ -13,6 +13,7 @@ import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragmentChildInteractionListener;
 import com.unnamed.studnetz.R;
+import com.unnamed.studnetz.network.SingletonRequestQueue;
 
 public class LoginRegisterActivity extends AppCompatActivity implements LoginFragment.onLoginFragmentInteractionListener, RegisterFragment.onRegisterFragmentInteractionListener, RegisterFragmentChildInteractionListener {
 
@@ -51,6 +52,10 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
     @Override
     public void onLoginButtonPressed(View v) {
+        if(v == null){
+            return;
+        }
+
         switch (v.getId()){
             case R.id.text_login_forgot:
                 Toast.makeText(getApplicationContext(),"Open Forgot Password", Toast.LENGTH_LONG).show();
@@ -59,6 +64,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
                 replaceFragment(mRegisterFragment, true);
                 break;
         }
+
     }
 
     @Override
@@ -91,6 +97,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
         replaceFragment(fragment,addToBackStack);
     }
 
+    // Methods for communication between RegisterFragment and child fragments
     @Override
     public void nextRegisterChildFragment(String[] data) {
         mRegisterFragment.nextFragment(data);

@@ -45,6 +45,7 @@ public class RegisterEmailFragment extends Fragment implements View.OnClickListe
             public void afterTextChanged(Editable s) { mNextButton.setEnabled(checkInput());}
         });
 
+        // If enter ist pressed on last input field the same happens as if the user pressed the next button
         mEmailTextField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -75,10 +76,11 @@ public class RegisterEmailFragment extends Fragment implements View.OnClickListe
         mNextButton.setEnabled(enable);
     }
 
+
+    // Checks input and sets the error message
     private boolean checkInput(){
 
         String input = mEmailTextField.getText().toString();
-
 
         if(isInputEmpty(input) ){
             mErrorText.setText(R.string.input_field_empty_error);
@@ -126,7 +128,7 @@ public class RegisterEmailFragment extends Fragment implements View.OnClickListe
             mListener = (RegisterFragmentChildInteractionListener) context;
         }else{
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement RegisterFragmentChildInteractionListener");
         }
     }
 
