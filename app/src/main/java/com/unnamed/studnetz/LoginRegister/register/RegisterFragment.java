@@ -17,9 +17,10 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.unnamed.studnetz.LoginRegister.LoginRegisterManager;
+import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.R;
-import com.unnamed.studnetz.network.SingletonRequestQueue;
-import com.unnamed.studnetz.network.requests.LoginRequest;
+import com.unnamed.studnetz.network.RequestQueueSingleton;
 import com.unnamed.studnetz.network.requests.RegisterRequest;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener{
@@ -44,8 +45,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     // !!!IMPORTANT!!! Fragment sequence has to match saveData() method
     private static final Fragment[] REGISTER_FRAGMENT_LIST = new Fragment[]{new RegisterNameFragment(),new RegisterEmailFragment(),new RegisterPasswordFragment()};
 
-
-
     private String mEmail;
     private String mPassword;
     private String mFirstName;
@@ -55,8 +54,21 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     private boolean register = false;
 
+    LoginRegisterManager mLRManager;
+
+    public static RegisterFragment newInstance(LoginRegisterManager lRManager){
+        RegisterFragment fragment = new RegisterFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("LoginRegisterManager", lRManager);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, null);
+
+        mLRManager = (LoginRegisterManager) getArguments().getSerializable("LoginRegisterManager");
 
         cfm = getChildFragmentManager();
 
@@ -73,7 +85,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         mActiveRegisterFragment = 0;
 
 
-        mRequestQueue = SingletonRequestQueue.getInstance(view.getContext()).getRequestQueue();
+        mRequestQueue = RequestQueueSingleton.getInstance(view.getContext()).getRequestQueue();
 
         return view;
     }
@@ -124,7 +136,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         });
         registerRequest.setTag(REQUEST_TAG);
 
-        SingletonRequestQueue.getInstance(this.getContext()).addToRequestQueue(registerRequest);
+        RequestQueueSingleton.getInstance(this.getContext()).addToRequestQueue(registerRequest);
 
         mRegisterProgressBar.setVisibility(View.INVISIBLE);
         register = false;

@@ -6,23 +6,23 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class SingletonRequestQueue {
+public class RequestQueueSingleton {
 
     // Code without ImageLoader from https://developer.android.com/training/volley/requestqueue.html
     // 26.02.2019
 
-    private static SingletonRequestQueue sSoleInstance;
+    private static volatile RequestQueueSingleton sSoleInstance;
     private RequestQueue mRequestQueue;
     private static Context sContext;
 
-    private SingletonRequestQueue(Context context){
+    private RequestQueueSingleton(Context context){
         sContext = context;
         mRequestQueue = getRequestQueue();
     }
 
-    public static synchronized SingletonRequestQueue getInstance(Context context){
+    public static synchronized RequestQueueSingleton getInstance(Context context){
         if(sSoleInstance == null){
-            sSoleInstance = new SingletonRequestQueue(context);
+            sSoleInstance = new RequestQueueSingleton(context);
         }
 
         return sSoleInstance;

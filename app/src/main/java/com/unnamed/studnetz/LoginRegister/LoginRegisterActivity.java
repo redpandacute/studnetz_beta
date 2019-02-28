@@ -1,6 +1,6 @@
 package com.unnamed.studnetz.LoginRegister;
 
-import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +13,6 @@ import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragmentChildInteractionListener;
 import com.unnamed.studnetz.R;
-import com.unnamed.studnetz.network.SingletonRequestQueue;
 
 public class LoginRegisterActivity extends AppCompatActivity implements LoginFragment.onLoginFragmentInteractionListener, RegisterFragment.onRegisterFragmentInteractionListener, RegisterFragmentChildInteractionListener {
 
@@ -25,13 +24,16 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
     FragmentManager fm;
 
+    LoginRegisterManager mLRManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-        mLoginFragment = new LoginFragment();
-        mRegisterFragment = new RegisterFragment();
+        mLRManager = new LoginRegisterManager(getApplicationContext());
+        mLoginFragment = LoginFragment.newInstance(mLRManager);
+        mRegisterFragment = RegisterFragment.newInstance(mLRManager);
 
         fm = getSupportFragmentManager();
 
@@ -106,5 +108,11 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
     @Override
     public void backRegisterChildFragment() {
         mRegisterFragment.backFragment();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mLRManager.onStop();
     }
 }
