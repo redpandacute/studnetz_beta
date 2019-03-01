@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.unnamed.studnetz.LoginRegister.LoginRegisterManager;
-import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.R;
 import com.unnamed.studnetz.network.RequestQueueSingleton;
 import com.unnamed.studnetz.network.requests.RegisterRequest;
@@ -54,21 +52,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     private boolean register = false;
 
-    LoginRegisterManager mLRManager;
-
-    public static RegisterFragment newInstance(LoginRegisterManager lRManager){
-        RegisterFragment fragment = new RegisterFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("LoginRegisterManager", lRManager);
-        fragment.setArguments(bundle);
-
-        return fragment;
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, null);
-
-        mLRManager = (LoginRegisterManager) getArguments().getSerializable("LoginRegisterManager");
 
         cfm = getChildFragmentManager();
 

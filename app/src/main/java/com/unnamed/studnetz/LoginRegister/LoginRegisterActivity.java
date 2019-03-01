@@ -24,16 +24,13 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
     FragmentManager fm;
 
-    LoginRegisterManager mLRManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-        mLRManager = new LoginRegisterManager(getApplicationContext());
-        mLoginFragment = LoginFragment.newInstance(mLRManager);
-        mRegisterFragment = RegisterFragment.newInstance(mLRManager);
+        mLoginFragment = new LoginFragment();
+        mRegisterFragment = new RegisterFragment();
 
         fm = getSupportFragmentManager();
 
@@ -113,6 +110,5 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
     @Override
     protected void onStop() {
         super.onStop();
-        mLRManager.onStop();
     }
 }
