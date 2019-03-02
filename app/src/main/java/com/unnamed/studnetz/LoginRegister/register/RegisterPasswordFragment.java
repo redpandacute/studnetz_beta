@@ -41,6 +41,8 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
         mPasswordField.addTextChangedListener(this);
         mConfPasswordField = view.findViewById(R.id.edittextregister_confpassword);
         mConfPasswordField.addTextChangedListener(this);
+
+        // If enter ist pressed on last input field the same happens as if the user pressed the next button
         mConfPasswordField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -134,14 +136,10 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
     @Override
     public void afterTextChanged(Editable s) {

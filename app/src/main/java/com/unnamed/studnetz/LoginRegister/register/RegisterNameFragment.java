@@ -34,6 +34,8 @@ public class RegisterNameFragment extends Fragment implements View.OnClickListen
         mFirstNameField.addTextChangedListener(this);
         mLastNameField = view.findViewById(R.id.edittext_register_lastname);
         mLastNameField.addTextChangedListener(this);
+
+        // If enter ist pressed on last input field the same happens as if the user pressed the next button
         mLastNameField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -77,25 +79,19 @@ public class RegisterNameFragment extends Fragment implements View.OnClickListen
     }
 
     private boolean checkInput(){
-
         if(TextUtils.isEmpty(mFirstNameField.getText().toString()) || TextUtils.isEmpty(mLastNameField.getText().toString())){
             return false;
         }else{
             return true;
         }
-
     }
 
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
     @Override
     public void afterTextChanged(Editable s) {
@@ -109,7 +105,7 @@ public class RegisterNameFragment extends Fragment implements View.OnClickListen
             mListener = (RegisterFragmentChildInteractionListener) context;
         }else{
             throw new RuntimeException(context.toString()
-                    + "must implement OnFragmentInteractionListener");
+                    + "must implement RegisterFragmentChildInteractionListener");
         }
     }
 

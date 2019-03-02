@@ -1,6 +1,6 @@
 package com.unnamed.studnetz.LoginRegister;
 
-import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -51,6 +51,10 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
     @Override
     public void onLoginButtonPressed(View v) {
+        if(v == null){
+            return;
+        }
+
         switch (v.getId()){
             case R.id.text_login_forgot:
                 Toast.makeText(getApplicationContext(),"Open Forgot Password", Toast.LENGTH_LONG).show();
@@ -59,6 +63,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
                 replaceFragment(mRegisterFragment, true);
                 break;
         }
+
     }
 
     @Override
@@ -91,6 +96,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
         replaceFragment(fragment,addToBackStack);
     }
 
+    // Methods for communication between RegisterFragment and child fragments
     @Override
     public void nextRegisterChildFragment(String[] data) {
         mRegisterFragment.nextFragment(data);
@@ -99,5 +105,10 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
     @Override
     public void backRegisterChildFragment() {
         mRegisterFragment.backFragment();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }
