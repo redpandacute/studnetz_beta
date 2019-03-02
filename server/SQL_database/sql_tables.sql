@@ -1,5 +1,17 @@
 CREATE TABLE user_archive(
 	user_id INT AUTO_INCREMENT,
+	uuid_bin BINARY(16),
+	uuid_text VARCHAR(36) generated always as
+
+		(insert(
+			insert(
+				insert(
+					insert(hex(uuid_bin),9,0,'-'),
+				14,0,'-'),
+			19,0,'-'),
+		24,0,'-')
+	) virtual,
+
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
@@ -7,7 +19,8 @@ CREATE TABLE user_archive(
 	account_verification_state INT DEFAULT 0,
 	email_verification_state INT DEFAULT 0,
 	creation_date DATE DEFAULT NULL,
-	PRIMARY KEY(user_id)
+	PRIMARY KEY(user_id),
+	UNIQUE(uuid_bin)
 );
 
 CREATE TABLE profile_archive(

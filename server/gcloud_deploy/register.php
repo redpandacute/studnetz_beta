@@ -23,12 +23,12 @@ if($con->connect_error) {
 
 	$response = [
 		'success' => false,
-		'error' => 'DB Connection Error:' . $con->connect_error
+		'error' => $con->connect_error . ':Failed to connect to DB'
 	];
 
 	print_r(json_encode($response));
 
-	die("Connection failed: " . $con->connect_error);
+	exit();
 }
 
 $email = $_POST["email"];
@@ -68,12 +68,10 @@ if(empty($password_plain) || !preg_match($patternspaced, $password_plain) || str
 }
 
 //CHECK AVAILIBILITY OF EMAIL
-$stmt = mysqli_prepare($con, "SELECT user_archive.* FROM user_archive WHERE user_archive.email = ?");
+$stmt = mysqli_prepare($con, "SELECT EXISTS(SELECT 1 FROM user_archive WHERE user_archive.email = ? LIMIT 1)");
 mysqli_stmt_bind_param($stmt, "s", $email);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_store_result($stmt);
+if(mysqli_stmt_execute($stmt)) {
 
-if(mysqli_stmt_num_rows($stmt) > 0) {
 	$valid = false;
 
 	$errorstring .= '406:4:taken email';
@@ -90,7 +88,7 @@ if(!$valid) {
 
 	print_r(json_encode($response));
 
-	die("An error ocurred with the userinput: " . $errorstring);
+	exit();
 }
 //-----------------------------------------------------
 //
@@ -105,12 +103,11 @@ $password_hash = password_hash($password_plain, PASSWORD_BCRYPT, $options);
 
 $school_verification_state = 0;
 
-$stmt = mysqli_prepare($con, "SELECT schooverification_archive.* FROM schoolverification_archive WHERE schoolverification_archive.email = ?");
+$stmt = mysqli_prepare($con, "SELECT EXISTS(SELECT 1 FROM schoolverification_archive WHERE schoolverification_archive.email = ?");
 mysqli_stmt_bind_param($stmt, "s", $email);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_store_result($stmt);
 
-if(mysqli_stmt_num_rows($stmt) > 0) {
+if(mysqli_stmt_execute($stmt)) {
+
 
 	mysqli_stmt_bind_result($stmt, $verf_school_id, $verification_state, $verf_email, $verf_firstname, $verf_lastname, $verf_grade, $active_state, $instertion_date, $expiration_date);
 
@@ -131,7 +128,7 @@ if(mysqli_stmt_num_rows($stmt) > 0) {
 
 	//INSERTION FOR VERIFIED USER --------------------------
 
-	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password_hash, account_verification_state, creation_date) VALUES (?,?,?,?,?, CURDATE())");
+	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(uuid_bin, firstname, lastname, email, password_hash, account_verification_state, creation_date) VALUES (UNHEX(REPLACE(UUID(),'-','')),?,?,?,?,?, CURDATE())");
 	mysqli_stmt_bind_param($stmt, "ssssi", $firstname, $lastname, $email, $password_hash, $school_verification_state);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
@@ -157,7 +154,7 @@ if(mysqli_stmt_num_rows($stmt) > 0) {
 
 	//INSERTIONS FOR UNVERIFIED USERS ----------------------
 	
-	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(firstname, lastname, email, password_hash, creation_date) VALUES (?,?,?,?, CURDATE())");
+	$stmt = mysqli_prepare($con, "INSERT INTO user_archive(uuid_bin, firstname, lastname, email, password_hash, creation_date) VALUES (UNHEX(REPLACE(UUID(),'-','')),?,?,?,?, CURDATE())");
 	mysqli_stmt_bind_param($stmt, "ssss", $firstname, $lastname, $email, $password_hash);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
@@ -172,4 +169,5 @@ $response = [
 ];
 
 print_r(json_encode($response));
+
 ?>

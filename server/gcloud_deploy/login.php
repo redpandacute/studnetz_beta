@@ -19,11 +19,11 @@ if($con->connect_error) {
 	
 	$response = [
 		'success' => false,
-		'error' => 'DB Connection Error:' . $con->connect_error
+		'error' => $con->connect_error . ':Failed to connect to DB'
 	];
 		
 	print_r(json_encode($response));
-	die("500:1:Connection failed: " . $con->connect_error);
+	exit();
 }
 
 $email = $_POST['email'];
@@ -37,37 +37,36 @@ if(!isset($email) || !isset($password_plain)) {
 	];
 
 	print_r(json_encode($response));
-	die("400:1:Bad Input");
+	exit();
 }
 
 
-$stmt = mysqli_prepare($con, "SELECT user_archive.* FROM user_archive WHERE email = ?");
+$stmt = mysqli_prepare($con, "SELECT user_archive.* FROM user_archive WHERE email = ? LIMIT 1");
 mysqli_stmt_bind_param($stmt, 's', $email);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
 
 if(mysqli_stmt_num_rows($stmt) != 1) {
-	
 	$response = [
 		'success' => false,
-		'error' => '404:1:User not found'
+		'error' => '404:1:Bad user'
 	];
 
 	print_r(json_encode($response));
-	die("404:1:User not found");
+	exit();
 }
 
-mysqli_stmt_bind_result($stmt, $user_id, $firstname, $lastname, $email, $password_hash, $account_verification_state, $email_vefification_state, $creation_date);
+mysqli_stmt_bind_result($stmt, $user_id, $uuid_bin, $uuid_text, $firstname, $lastname, $email, $password_hash, $account_verification_state, $email_vefification_state, $creation_date);
 
 
 while($row = mysqli_stmt_fetch($stmt)) {
 	
 	$user = [
-		'user_id' => $user_id,
+		'uuid_bin' => $uuid_bin,
+		'uuid_text' => $uuid_text,
 		'firstname' => $firstname,
 		'lastname' => $lastname,
 		'email' => $email,
-		'password_hash' => $password_hash,
 		'account_verification_state' => $account_verification_state,
 		'email_verification_state' => $email_verification_state,
 		'creation_date' => $creation_date
@@ -80,11 +79,11 @@ if(!password_verify($password_plain, $user['password_hash'])) {
 	
 	$response = [
 		'success' => false,
-		'error' => '401:1:Bad Password'
+		'error' => '401:1:Bad user'
 	];
 
 	print_r(json_encode($response));
-	die("401:1:Bad Password");
+	exit();
 }
 
 $response = [
