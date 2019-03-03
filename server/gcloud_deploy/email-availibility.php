@@ -1,8 +1,9 @@
 <?php 
 
+require __DIR__ . '/env.php';
+
 use Google\Cloud\Storage\StorageClient;
 
-require __DIR__ . '/env.php';
 require __DIR__ . '/app_ini.php';
 
 $servername = null;
@@ -13,7 +14,7 @@ $dbport = null;
 
 $connectionname = $app['connection_name'];
 
-$con = new mysqli($servername, $username, $password, $dbname, $dbport, '/cloudsql/', $connectionname);
+$con = new mysqli($servername, $username, $password, $dbname, $dbport, '/cloudsql/' . $connectionname);
 
 if($con->connect_error) {
 	$response = [
@@ -37,14 +38,18 @@ if(!isset($email)) {
 	exit();
 }
 
-$stmt = mysqli_prepare($con, "SELECT EXISTS(SELECT 1 FROM user_archive WHERE email=? LIMIT 1)");
-mysqli_stmt_bind_param($stmt, 's', $email);
+$stmt = mysqli_prepare($con, "SELECT EXISTS(SELECT 1 FROM user_archive WHERE email = ? LIMIT 1)");
+mysqli_stmt_bind_param($stmt, "s", $email);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_store_result($stmt);
+mysqli_stmt_bind_result($stmt, $exists);
+mysqli_stmt_fetch($stmt);
 
-if(!mysqli_stmt_execute($stmt)) {
+if($exists == 1) {
 
 	$response = [
 		'success' => false,
-		'error' => '400:1:Email taken'
+		'error' => '406:1:Email taken'
 	];
 
 	print_r(json_encode($response));
@@ -60,5 +65,4 @@ if(!mysqli_stmt_execute($stmt)) {
 }	
 
 mysqli_stmt_close($stmt);
-
 ?>

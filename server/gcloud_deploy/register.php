@@ -68,13 +68,20 @@ if(empty($password_plain) || !preg_match($patternspaced, $password_plain) || str
 }
 
 //CHECK AVAILIBILITY OF EMAIL
-$stmt = mysqli_prepare($con, "SELECT EXISTS(SELECT 1 FROM user_archive WHERE user_archive.email = ? LIMIT 1)");
+$stmt = mysqli_prepare($con, "SELECT EXISTS(SELECT 1 FROM user_archive WHERE email = ? LIMIT 1)");
 mysqli_stmt_bind_param($stmt, "s", $email);
-if(mysqli_stmt_execute($stmt)) {
+mysqli_stmt_execute($stmt);
+mysqli_stmt_store_result($stmt);
+mysqli_stmt_bind_result($stmt, $exists);
+mysqli_stmt_fetch($stmt);
+
+echo $exists;
+
+if($exists == 1) { 
 
 	$valid = false;
 
-	$errorstring .= '406:4:taken email';
+	$errorstring .= '406:4:Email taken';
 }
 
 mysqli_stmt_close($stmt);
@@ -105,9 +112,18 @@ $school_verification_state = 0;
 
 $stmt = mysqli_prepare($con, "SELECT EXISTS(SELECT 1 FROM schoolverification_archive WHERE schoolverification_archive.email = ?");
 mysqli_stmt_bind_param($stmt, "s", $email);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_store_result($stmt);
+mysqli_stmt_bind_result($stmt, $exists);
+mysqli_stmt_fetch($stmt);
+mysqli_stmt_close($stmt);
 
-if(mysqli_stmt_execute($stmt)) {
+if($exists == 1) {
 
+	mysqli_prepare($con, "SELECT * FROM schoolverification_archive WHERE email = ?");
+	mysqli_stmt_bind_param($stmt, 's', $email);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_store_result($stmt);
 
 	mysqli_stmt_bind_result($stmt, $verf_school_id, $verification_state, $verf_email, $verf_firstname, $verf_lastname, $verf_grade, $active_state, $instertion_date, $expiration_date);
 

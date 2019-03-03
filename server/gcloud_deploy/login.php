@@ -56,13 +56,12 @@ if(mysqli_stmt_num_rows($stmt) != 1) {
 	exit();
 }
 
-mysqli_stmt_bind_result($stmt, $user_id, $uuid_bin, $uuid_text, $firstname, $lastname, $email, $password_hash, $account_verification_state, $email_vefification_state, $creation_date);
+mysqli_stmt_bind_result($stmt, $user_id, $uuid_bin, $uuid_text, $firstname, $lastname, $email, $result_password_hash, $account_verification_state, $email_vefification_state, $creation_date);
 
 
 while($row = mysqli_stmt_fetch($stmt)) {
 	
 	$user = [
-		'uuid_bin' => $uuid_bin,
 		'uuid_text' => $uuid_text,
 		'firstname' => $firstname,
 		'lastname' => $lastname,
@@ -71,11 +70,16 @@ while($row = mysqli_stmt_fetch($stmt)) {
 		'email_verification_state' => $email_verification_state,
 		'creation_date' => $creation_date
 	];
+
+	$password_hash = [
+		'password_hash' => $result_password_hash
+	];
+
 }
 
 mysqli_stmt_close($stmt);
 
-if(!password_verify($password_plain, $user['password_hash'])) {		
+if(!password_verify($password_plain, $password_hash['password_hash'])) {		
 	
 	$response = [
 		'success' => false,
