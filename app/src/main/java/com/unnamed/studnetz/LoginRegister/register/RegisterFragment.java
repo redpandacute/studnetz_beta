@@ -41,7 +41,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     // List of Fragments that show during registration progress sequentially
     // !!!IMPORTANT!!! Fragment sequence has to match saveData() method
-    private static final Fragment[] REGISTER_FRAGMENT_LIST = new Fragment[]{new RegisterNameFragment(),new RegisterEmailFragment(),new RegisterPasswordFragment()};
+    private static final RegisterChildFragment[] REGISTER_FRAGMENT_LIST = new RegisterChildFragment[]{new RegisterNameFragment(),new RegisterEmailFragment(),new RegisterPasswordFragment()};
+    private String[] errorMessages = new String[REGISTER_FRAGMENT_LIST.length];
 
     private String mEmail;
     private String mPassword;
@@ -69,6 +70,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
         mActiveRegisterFragment = 0;
 
+        //Set Error Strings
+        for(int i = 0; i < errorMessages.length; i++){
+            errorMessages[i] = "";
+        }
 
         mRequestQueue = RequestQueueSingleton.getInstance(view.getContext()).getRequestQueue();
 
@@ -98,6 +103,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             register();
         }else{
             mActiveRegisterFragment++;
+
+
+            REGISTER_FRAGMENT_LIST[mActiveRegisterFragment].setErrorMessage(errorMessages[mActiveRegisterFragment]);
             replaceFragment(REGISTER_FRAGMENT_LIST[mActiveRegisterFragment],true);
         }
     }

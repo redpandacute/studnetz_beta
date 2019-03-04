@@ -1,10 +1,8 @@
 package com.unnamed.studnetz.LoginRegister.register;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -14,26 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.unnamed.studnetz.R;
 
-import org.w3c.dom.Text;
+public class RegisterPasswordFragment extends RegisterChildFragment implements View.OnClickListener, TextWatcher {
 
-public class RegisterPasswordFragment extends Fragment implements View.OnClickListener, TextWatcher {
-
-    RegisterFragmentChildInteractionListener mListener;
     EditText mPasswordField;
     EditText mConfPasswordField;
-
-    TextView mErrorText;
 
     Button mNextButton;
     Button mBackButton;
 
     private int minPasswordLength = 8;
 
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register_password, null);
 
@@ -69,7 +63,27 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
         mBackButton = view.findViewById(R.id.button_register_password_back);
         mBackButton.setOnClickListener(this);
 
+        updateButton(false);
+
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mErrorText.setText(mErrorMessage);
+    }
+
+    @Override
+    void setErrorMessage(String errorMessage) {
+        mErrorMessage = errorMessage;
+        if(mErrorText != null) {
+            mErrorText.setText(mErrorMessage);
+        }
+    }
+
+    private void updateButton(boolean enable){
+        mNextButton.setEnabled(enable);
     }
 
     @Override
@@ -84,30 +98,26 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    private void updateButton(boolean enable){
-        mNextButton.setEnabled(enable);
-    }
-
     private boolean checkInput(){
 
         String password = mPasswordField.getText().toString();
         String confPassword = mConfPasswordField.getText().toString();
 
         if(isInputEmpty(password, confPassword)){
-            mErrorText.setText(R.string.input_field_empty_error);
+            setErrorMessage(getString(R.string.input_field_empty_error));
             return false;
 
         }else if(!isPasswordLongEnough(password)){
-            mErrorText.setText(getString(R.string.password_to_short_error,minPasswordLength));
+            setErrorMessage(getString(R.string.password_to_short_error,minPasswordLength));
             return false;
         }else if(!doPasswordMatch(password, confPassword)){
-            mErrorText.setText(R.string.password_match_error);
+            setErrorMessage(getString(R.string.password_match_error));
             return false;
 
         }
 
         if(isInBlacklist(password)){
-            mErrorText.setText(R.string.common_password_error);
+            setErrorMessage(getString(R.string.common_password_error));
         }
 
         mErrorText.setText("");
@@ -128,7 +138,7 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
     }
 
     private boolean isInputEmpty(String password, String confPassword){
-            return TextUtils.isEmpty(password) || TextUtils.isEmpty(confPassword);
+        return TextUtils.isEmpty(password) || TextUtils.isEmpty(confPassword);
     }
 
     private boolean doPasswordMatch(String password, String confPassword){
@@ -136,30 +146,15 @@ public class RegisterPasswordFragment extends Fragment implements View.OnClickLi
     }
 
     @Override
+    public void afterTextChanged(Editable s) { updateButton(checkInput()); }
+
+    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        updateButton(checkInput());
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if( context instanceof RegisterFragmentChildInteractionListener){
-            mListener = (RegisterFragmentChildInteractionListener) context;
-        }else{
-            throw new RuntimeException(context.toString()
-                    + "must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+
 }
