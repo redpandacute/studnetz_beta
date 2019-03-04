@@ -1,9 +1,9 @@
 <?php
-use Google\Cloud\Storage\StorageClient;
 
 require __DIR__ . '/config/env.php';
+require __DIR__ . '/config/jwt_key.php';
+require __DIR__ . '/inc/jwt_helper.php';
 require __DIR__ . '/app_ini.php';
-
 
 $servername = null;
 $username = $app['mysql_user'];
@@ -26,23 +26,34 @@ if($con->connect_error) {
 	exit();
 }
 
-$email = $_POST['email'];
-$password_plain = $_POST['password'];
+$token = $_POST['token'];
 
-if(!isset($email) || !isset($password_plain)) {
-	
+try {
+
+	$decoded_key = base64_decode($key);
+	$payload = json_decode(json_encode(get_object_vars(JWT::decode($token, $decoded_key, array('HS512')))), true); //dont fkn ask me how this works but it does
+
+} catch (Exception $e) {
+
 	$response = [
 		'success' => false,
-		'error' => '400:1:Bad Input'
+		'error' => '401:1:Invalid Token'
 	];
-
+	
 	print_r(json_encode($response));
 	exit();
 }
+$data  = $payload['data'];
 
+$email = $data['email'];
+$uuid = $data['uuid_text'];
 
-$stmt = mysqli_prepare($con, "SELECT user_archive.* FROM user_archive WHERE email = ? LIMIT 1");
-mysqli_stmt_bind_param($stmt, 's', $email);
+echo $email;
+echo ' ' . $uuid;
+
+$stmt = mysqli_prepare($con, "SELECT user_archive.* FROM user_archive WHERE email = ? AND uuid_bin = UNHEX(REPLACE(?,'-','')) LIMIT 1");
+
+mysqli_stmt_bind_param($stmt, 'ss', $email, $uuid);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
 
@@ -70,29 +81,13 @@ while($row = mysqli_stmt_fetch($stmt)) {
 		'email_verification_state' => $email_verification_state,
 		'creation_date' => $creation_date
 	];
-
-	$password_hash = [
-		'password_hash' => $result_password_hash
-	];
-
 }
 
 mysqli_stmt_close($stmt);
 
-if(!password_verify($password_plain, $password_hash['password_hash'])) {		
-	
-	$response = [
-		'success' => false,
-		'error' => '401:1:Bad user'
-	];
-
-	print_r(json_encode($response));
-	exit();
-}
-
 $response = [
 	'success' => true,
-	'user' => $user
+	'user' => $user,
 ];
 
 print_r(json_encode($response));

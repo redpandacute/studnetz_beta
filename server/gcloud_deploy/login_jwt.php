@@ -1,7 +1,10 @@
 <?php
 use Google\Cloud\Storage\StorageClient;
 
+
 require __DIR__ . '/config/env.php';
+require __DIR__ . '/config/jwt_key.php';
+require __DIR__ . '/inc/jwt_helper.php';
 require __DIR__ . '/app_ini.php';
 
 
@@ -90,9 +93,31 @@ if(!password_verify($password_plain, $password_hash['password_hash'])) {
 	exit();
 }
 
+//JWT Preparation
+
+$tokenID = base64_encode(mcrypt_create_iv(32));
+$issuedAt = time();
+
+
+$payload = [
+	'iat' => $issuedAt,
+	'jti' => $tokenID,
+	'data' => [
+		'uuid_text' => $user['uuid_text'],
+		'email' => $user['email'],
+		'account_verification_state' => $user['account_verification_state']
+	]
+];
+
+$decoded_key = base64_decode($key);
+
+$token = JWT::encode($payload, $decoded_key, 'HS512');
+
 $response = [
 	'success' => true,
-	'user' => $user
+	'user' => $user,
+	'token' => $token
+
 ];
 
 print_r(json_encode($response));
