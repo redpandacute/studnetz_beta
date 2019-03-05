@@ -1,6 +1,6 @@
 <?php 
 
-require __DIR__ . '/env.php';
+require __DIR__ . '/config/env.php';
 
 use Google\Cloud\Storage\StorageClient;
 
