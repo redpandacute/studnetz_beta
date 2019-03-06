@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +32,13 @@ import java.util.Map;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
+    //TODO: Update Login that it works with login_jwt.php, Update LoginRequest
+
     public interface onLoginFragmentInteractionListener {
         void onLoginButtonPressed(View v);
     }
 
+    private final static String LOG_TAG = "LoginFragment";
 
     public static final String REQUEST_TAG = "LOGIN_REQUEST_TAG";
 
@@ -81,7 +85,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 if (v.getId() == R.id.button_login_signin) {
                     login();
                 } else {
-
                     mListener.onLoginButtonPressed(v);
                 }
             }
@@ -89,6 +92,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void login()  {
+
+
+        Log.d(LOG_TAG,"Try Sign in");
 
         String loginEmail = mEmailField.getText().toString();
         String loginPassword = mPasswordField.getText().toString();
@@ -118,6 +124,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             //TODO: if login successful set user
                             JSONObject user = jsonAnswer.getJSONObject("user");
                             error = "Hello " + user.getString("firstname") + " " + user.getString("lastname");
+                            Log.d(LOG_TAG, "Login successful, User: " + user.getString("firstname") + " " + user.getString("lastname"));
                         }else{
                             //if login not successful get error
                             String answerError = jsonAnswer.getString("error");
@@ -125,14 +132,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             switch (answerError){
                                 case "400:1:Bad Input":
                                     error = getContext().getResources().getString(R.string.input_field_empty_error);
+                                    Log.d(LOG_TAG,"Input Field(s) Empty");
                                     break;
 
                                 case"404:1:User not found":
                                     error = getContext().getResources().getString(R.string.login_wrong_input);
+                                    Log.d(LOG_TAG,"Invalid Username or Password");
                                     break;
 
                                 case"401:1:Bad Password":
                                     error = getContext().getResources().getString(R.string.login_wrong_input);
+                                    Log.d(LOG_TAG,"Invalid Username or Password");
                                     break;
 
                             }
@@ -140,8 +150,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         }
 
                     }catch (JSONException jsone){
-                        //Todo: set Answer for json parse error
-                        error = "";
+                        Log.e(LOG_TAG,"Server answer not in JSON Format");
                     }
 
                     mLoginProgressBar.setVisibility(View.INVISIBLE);
@@ -152,9 +161,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    //TODO: Error handling
+                    Log.e(LOG_TAG, "LoginErrorResponse: " + error.getMessage());
                     mLoginProgressBar.setVisibility(View.INVISIBLE);
-                    mLoginErrorText.setText(error.toString());
                     loginIn = false;
                 }
             });
@@ -162,9 +170,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             loginRequest.setTag(REQUEST_TAG);
 
             RequestQueueSingleton.getInstance(this.getContext()).addToRequestQueue(loginRequest);
+            Log.d(LOG_TAG,"Start Login Request");
 
         }else{
             mLoginErrorText.setText(R.string.input_field_empty_error);
+            Log.d(LOG_TAG,"Input Field(s) Empty");
         }
     }
 

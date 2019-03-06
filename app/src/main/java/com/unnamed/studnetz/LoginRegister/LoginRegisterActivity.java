@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
     FragmentManager fm;
 
+    private final static String LOG_TAG = "LoginRegisterActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
         if(savedInstanceState == null) {
 
+            Log.d(LOG_TAG,"starting Login Fragment");
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.add(R.id.flcontainer_login_register_fragment, mLoginFragment);
             fragmentTransaction.commitNow();
@@ -46,6 +50,9 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
             mRegisterFragment = (RegisterFragment) fm.findFragmentByTag(REGISTER_FRAGMENT_TAG);
 
         }
+
+
+
     }
 
 
@@ -78,6 +85,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack){
+        Log.d(LOG_TAG,"replacing Fragment, new " + fragment.toString());
         if(fragment == null){
             return;
         }
