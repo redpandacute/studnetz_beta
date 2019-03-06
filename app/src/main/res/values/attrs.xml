@@ -9,4 +9,10 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ExampleCustomView">
+        <attr name="text" format="reference|string"/>
+        <attr name="textColor" format="reference"/>
+        <attr name="backgroundColor" format="reference"/>
+    </declare-styleable>
+
 </resources>

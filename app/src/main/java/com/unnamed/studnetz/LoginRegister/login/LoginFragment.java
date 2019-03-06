@@ -1,6 +1,8 @@
 package com.unnamed.studnetz.LoginRegister.login;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -68,6 +70,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         mRequestQueue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
 
+
         return view;
 
     }
@@ -78,9 +81,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 if (v.getId() == R.id.button_login_signin) {
                     login();
                 } else {
+
                     mListener.onLoginButtonPressed(v);
                 }
             }
+
     }
 
     private void login()  {
