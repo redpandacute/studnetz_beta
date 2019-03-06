@@ -19,6 +19,7 @@ CREATE TABLE user_archive(
 	account_verification_state INT DEFAULT 0,
 	email_verification_state INT DEFAULT 0,
 	creation_date DATE DEFAULT NULL,
+	lastactive DATETIME() DEFAULT NULL,
 	PRIMARY KEY(user_id),
 	UNIQUE(uuid_bin)
 );
@@ -33,13 +34,38 @@ CREATE TABLE profile_archive(
 
 CREATE TABLE schooltype_list(
 	schooltype_id INT AUTO_INCREMENT,
+	uuid_bin BINARY(16) NOT NULL,
+	uuid_text VARCHAR(36) generated always as
+
+		(insert(
+			insert(
+				insert(
+					insert(hex(uuid_bin),9,0,'-'),
+				14,0,'-'),
+			19,0,'-'),
+		24,0,'-')
+	) virtual,
+
 	schooltype_name VARCHAR(255),
+	schooltype_abrv VARCHAR(8),
 	PRIMARY KEY(schooltype_id)
 );
 
 CREATE TABLE school_list(
 	school_id INT AUTO_INCREMENT,
-	schooltype_id INT NOT NULL,
+	uuid_bin BINARY(16) NOT NULL,
+	uuid_text VARCHAR(36) generated always as
+
+	  	(insert(
+			insert(
+				insert(
+					insert(hex(uuid_bin),9,0,'-'),
+				14,0,'-'),
+			19,0,'-'),
+		24,0,'-')
+	) virtual,V
+	
+	schooltype_id AUTO_INCREMENT NOT NULL,
 	schoolname VARCHAR(255) NOT NULL,
 	schoolgrades INT,
 	PRIMARY KEY(school_id),
@@ -71,6 +97,18 @@ CREATE TABLE schoolverification_archive(
 
 CREATE TABLE subject_list(
 	subject_id INT AUTO_INCREMENT,
+	uuid_bin BINARY(16) NOT NULL,
+	uuid_text VARCHAR(36) generated always as
+
+	  	(insert(
+			insert(
+				insert(
+					insert(hex(uuid_bin),9,0,'-'),
+				14,0,'-'),
+			19,0,'-'),
+		24,0,'-')
+	) virtual,
+
 	subjectname VARCHAR(255) NOT NULL,
 	color BINARY(3) NOT NULL,
 	PRIMARY KEY(subject_id)

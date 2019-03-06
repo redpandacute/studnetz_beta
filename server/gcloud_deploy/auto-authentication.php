@@ -67,7 +67,7 @@ if(mysqli_stmt_num_rows($stmt) != 1) {
 	exit();
 }
 
-mysqli_stmt_bind_result($stmt, $user_id, $uuid_bin, $uuid_text, $firstname, $lastname, $email, $result_password_hash, $account_verification_state, $email_vefification_state, $creation_date);
+mysqli_stmt_bind_result($stmt, $user_id, $uuid_bin, $uuid_text, $firstname, $lastname, $email, $result_password_hash, $account_verification_state, $email_vefification_state, $creation_date, $lastactive);
 
 
 while($row = mysqli_stmt_fetch($stmt)) {
@@ -79,15 +79,20 @@ while($row = mysqli_stmt_fetch($stmt)) {
 		'email' => $email,
 		'account_verification_state' => $account_verification_state,
 		'email_verification_state' => $email_verification_state,
-		'creation_date' => $creation_date
 	];
 }
 
 mysqli_stmt_close($stmt);
 
+//update lastactive
+
+$stmt = mysqli_prepare($con, "UPDATE user_archive SET lastactive = NOW()");
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+
 $response = [
 	'success' => true,
-	'user' => $user,
+	'user' => $user
 ];
 
 print_r(json_encode($response));
