@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/text_register_name_error"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="0dp"
+        android:layout_height="50dp"
+        android:gravity="bottom"
+        android:textAlignment="center"
         android:textColor="@color/colorErrorRed"
         android:textSize="@dimen/normal_font_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
     <EditText
         android:id="@+id/edittext_register_firstname"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_text_input"
-        android:hint="@string/firstname_hint"
-        android:inputType="textPersonName"
-        android:textAlignment="textStart"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
         android:textSize="@dimen/input_font_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-        app:layout_constraintRight_toRightOf="@id/guideline_right"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_register_name_error"></EditText>
+        android:textAlignment="textStart"
+        android:inputType="textPersonName"
+        android:maxLength="255"
+        android:hint="@string/firstname_hint"/>
 
     <EditText
         android:id="@+id/edittext_register_lastname"
@@ -44,43 +38,28 @@
         android:background="@drawable/basic_text_input"
         android:hint="@string/lastname_hint"
         android:inputType="textPersonName"
+        android:maxLength="255"
         android:textAlignment="textStart"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
-        android:textSize="@dimen/input_font_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-        app:layout_constraintRight_toRightOf="@id/guideline_right"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edittext_register_firstname"></EditText>
+        android:textSize="@dimen/input_font_size" />
 
     <Button
         android:id="@+id/button_register_name_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_view"
+        android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_rounded_button"
+        android:enabled="false"
         android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/normal_button_font_size"
-        app:layout_constraintBottom_toTopOf="@+id/button_register_name_back"
-        android:enabled="false"
-        tools:layout_editor_absoluteX="0dp"></Button>
+        android:textSize="@dimen/normal_button_font_size" />
 
-    <Button
-        android:id="@+id/button_register_name_back"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/register_bottom_margin"
-        android:background="@drawable/basic_rounded_button"
-        android:text="@string/back"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/normal_button_font_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        android:visibility="invisible"></Button>
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/margin_view"/>
 
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

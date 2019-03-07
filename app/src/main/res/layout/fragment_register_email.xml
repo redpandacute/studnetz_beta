@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/text_register_email_error"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="0dp"
+        android:layout_height="50dp"
+        android:gravity="bottom"
+        android:textAlignment="center"
         android:textColor="@color/colorErrorRed"
         android:textSize="@dimen/normal_font_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
 
 
     <EditText
@@ -25,41 +21,40 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_text_input"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:textAlignment="textStart"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
         android:textSize="@dimen/input_font_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_register_email_error"></EditText>
+        android:textAlignment="textStart"
+        android:inputType="textEmailAddress"
+        android:maxLength="255"
+        android:hint="@string/email"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="@dimen/margin_view"/>
 
     <Button
         android:id="@+id/button_register_email_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_view"
+        android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_rounded_button"
+        android:enabled="false"
         android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/normal_button_font_size"
-        app:layout_constraintBottom_toTopOf="@+id/button_register_email_back"
-        android:enabled="false"
-        tools:layout_editor_absoluteX="0dp"></Button>
+        android:textSize="@dimen/normal_button_font_size" />
 
     <Button
         android:id="@+id/button_register_email_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/register_bottom_margin"
+        android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_rounded_button"
         android:text="@string/back"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/normal_button_font_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp"></Button>
+        android:textSize="@dimen/normal_button_font_size" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

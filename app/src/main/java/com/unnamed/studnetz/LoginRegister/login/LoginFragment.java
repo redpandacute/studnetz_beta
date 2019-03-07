@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -45,6 +46,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private RequestQueue mRequestQueue;
 
+    private InputMethodManager mInputMethodManager;
+
     private boolean mLoginIn = false;
     private String mLoginError = "";
 
@@ -52,6 +55,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        mInputMethodManager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
 
         mLoginProgressBar = view.findViewById(R.id.login_progressBar);
         mPasswordField = view.findViewById(R.id.edittext_login_password);
@@ -97,6 +102,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
             if(!mLoginIn) {
                 if (v.getId() == R.id.button_login_signin) {
+                    // Hide soft keyboard
+                    mInputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     login();
                 } else {
                     mListener.onLoginButtonPressed(v);

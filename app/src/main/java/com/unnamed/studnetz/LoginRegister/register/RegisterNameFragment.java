@@ -1,5 +1,6 @@
 package com.unnamed.studnetz.LoginRegister.register;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +22,6 @@ public class RegisterNameFragment extends RegisterChildFragment implements View.
     EditText mLastNameField;
 
     Button mNextButton;
-    Button mBackButton;
 
     @Nullable
     @Override
@@ -56,8 +56,7 @@ public class RegisterNameFragment extends RegisterChildFragment implements View.
 
         mNextButton = view.findViewById(R.id.button_register_name_next);
         mNextButton.setOnClickListener(this);
-        mBackButton = view.findViewById(R.id.button_register_name_back);
-        mBackButton.setOnClickListener(this);
+
 
         updateButton(false);
 
@@ -80,11 +79,19 @@ public class RegisterNameFragment extends RegisterChildFragment implements View.
 
     @Override
     public void onClick(View v) {
+        System.out.println("dkhjldfsljkhfdsaljkö " + pxToDp(mNextButton.getHeight()));
         switch (v.getId()){
             case R.id.button_register_name_next:
                 mListener.nextRegisterChildFragment(new String[]{mFirstNameField.getText().toString(),mLastNameField.getText().toString()});
                 break;
         }
+
+
+
+    }
+
+    public static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
     }
 
     boolean checkInput() {
