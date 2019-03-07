@@ -1,14 +1,13 @@
 package com.unnamed.studnetz.LoginRegister.login;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,61 +26,76 @@ import com.unnamed.studnetz.network.requests.LoginRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class LoginFragment extends Fragment implements View.OnClickListener {
-
-    //TODO: Update Login that it works with login_jwt.php, Update LoginRequest
-
-    public interface onLoginFragmentInteractionListener {
-        void onLoginButtonPressed(View v);
-    }
-
-    private final static String LOG_TAG = "LoginFragment";
-
-    public static final String REQUEST_TAG = "LOGIN_REQUEST_TAG";
 
     private onLoginFragmentInteractionListener mListener;
 
-    ProgressBar mLoginProgressBar;
+    private final static String LOG_TAG = "LoginFragment";
+    public static final String REQUEST_TAG = "LOGIN_REQUEST_TAG";
+
+    private ProgressBar mLoginProgressBar;
 
     private TextView mLoginErrorText;
     private EditText mPasswordField;
     private EditText mEmailField;
 
+    private TextView mButtonLoginSignUp;
+    private TextView mButtonForgotPassword;
+    private Button mLoginButton;
+
     private RequestQueue mRequestQueue;
-    private boolean loginIn = false;
+
+    private boolean mLoginIn = false;
+    private String mLoginError = "";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, null);
-
-        TextView mButtonLoginSignUp = view.findViewById(R.id.text_login_register);
-        mButtonLoginSignUp.setOnClickListener(this);
-        TextView buttonForgotPassword = view.findViewById(R.id.text_login_forgot);
-        buttonForgotPassword.setOnClickListener(this);
-
-        Button mLoginButton = view.findViewById(R.id.button_login_signin);
-        mLoginButton.setOnClickListener(this);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         mLoginProgressBar = view.findViewById(R.id.login_progressBar);
-
         mPasswordField = view.findViewById(R.id.edittext_login_password);
         mEmailField = view.findViewById(R.id.edittext_login_email);
         mLoginErrorText = view.findViewById(R.id.text_error_login);
+        mLoginButton = view.findViewById(R.id.button_login_signin);
+
+        mButtonForgotPassword = view.findViewById(R.id.text_login_forgot);
+        mButtonLoginSignUp = view.findViewById(R.id.text_login_register);
 
         mRequestQueue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
-
 
         return view;
 
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mButtonLoginSignUp.setOnClickListener(this);
+        mButtonForgotPassword.setOnClickListener(this);
+        mLoginButton.setOnClickListener(this);
+        // If enter ist pressed on last input field the same happens as if the user pressed the next button
+        mPasswordField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN){
+                    switch (keyCode){
+                        case KeyEvent.KEYCODE_DPAD_DOWN:
+                        case KeyEvent.KEYCODE_ENTER:
+                            login();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
     public void onClick(View v) {
-            if(!loginIn) {
+            if(!mLoginIn) {
                 if (v.getId() == R.id.button_login_signin) {
                     login();
                 } else {
@@ -92,90 +106,101 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     private void login()  {
+        Log.d(LOG_TAG,"Start login process");
 
-
-        Log.d(LOG_TAG,"Try Sign in");
-
-        String loginEmail = mEmailField.getText().toString();
+        final String loginEmail = mEmailField.getText().toString();
         String loginPassword = mPasswordField.getText().toString();
 
         if(!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPassword)){
 
-            loginIn = true;
+            mLoginIn = true;
             mLoginProgressBar.setVisibility(View.VISIBLE);
 
-            Map<String, String> input = new HashMap<>();
-            input.put("email",loginEmail);
-            input.put("password",loginPassword);
-
-            LoginRequest loginRequest = new LoginRequest(input, new Response.Listener<String>() {
+            sendLoginRequest(loginEmail, loginPassword, new LoginRequestCallback() {
                 @Override
-                public void onResponse(String response) {
-                    String error = "";
+                public void onSuccess(JSONObject jsonObject) {
+                    // Todo: Set active User
+                    mLoginError = "";
+                    Log.d(LOG_TAG, "Login successful, User:" + jsonObject.toString());
 
-                    //FIXME: Server return json and error back
-                    String answer = response.substring(0,response.lastIndexOf('}')+1);
+                    mLoginProgressBar.setVisibility(View.INVISIBLE);
+                    mLoginErrorText.setText(mLoginError);
+                    mLoginIn = false;
+                }
 
-                    try {
-                        JSONObject jsonAnswer = new JSONObject(answer);
+                @Override
+                public void onLoginError(String error) {
+                    String loginRequestError = "";
 
-                        boolean success = jsonAnswer.getBoolean("success");
-                        if(success){
-                            //TODO: if login successful set user
-                            JSONObject user = jsonAnswer.getJSONObject("user");
-                            error = "Hello " + user.getString("firstname") + " " + user.getString("lastname");
-                            Log.d(LOG_TAG, "Login successful, User: " + user.getString("firstname") + " " + user.getString("lastname"));
-                        }else{
-                            //if login not successful get error
-                            String answerError = jsonAnswer.getString("error");
+                    switch (error){
 
-                            switch (answerError){
-                                case "400:1:Bad Input":
-                                    error = getContext().getResources().getString(R.string.input_field_empty_error);
-                                    Log.d(LOG_TAG,"Input Field(s) Empty");
-                                    break;
+                        case "400:1:Bad Input":
+                            loginRequestError = getString(R.string.input_field_empty_error);
+                            break;
 
-                                case"404:1:User not found":
-                                    error = getContext().getResources().getString(R.string.login_wrong_input);
-                                    Log.d(LOG_TAG,"Invalid Username or Password");
-                                    break;
+                        case "401:1:Bad user":
+                            loginRequestError = getString(R.string.login_wrong_input);
+                            break;
 
-                                case"401:1:Bad Password":
-                                    error = getContext().getResources().getString(R.string.login_wrong_input);
-                                    Log.d(LOG_TAG,"Invalid Username or Password");
-                                    break;
-
-                            }
-
-                        }
-
-                    }catch (JSONException jsone){
-                        Log.e(LOG_TAG,"Server answer not in JSON Format");
+                        default:
+                            loginRequestError = "Something went wrong, please try again later";
+                            Log.wtf(LOG_TAG, "LoginRequest Error: Unknown Error: " + error);
                     }
 
-                    mLoginProgressBar.setVisibility(View.INVISIBLE);
-                    mLoginErrorText.setText(error);
-                    loginIn = false;
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
+                    Log.d(LOG_TAG, "Login unsuccessful, Error: " + loginRequestError);
+                    mLoginError = loginRequestError;
 
-                    Log.e(LOG_TAG, "LoginErrorResponse: " + error.getMessage());
                     mLoginProgressBar.setVisibility(View.INVISIBLE);
-                    loginIn = false;
+                    mLoginErrorText.setText(mLoginError);
+                    mLoginIn = false;
                 }
             });
 
-            loginRequest.setTag(REQUEST_TAG);
-
-            RequestQueueSingleton.getInstance(this.getContext()).addToRequestQueue(loginRequest);
-            Log.d(LOG_TAG,"Start Login Request");
-
         }else{
-            mLoginErrorText.setText(R.string.input_field_empty_error);
-            Log.d(LOG_TAG,"Input Field(s) Empty");
+            String loginError = getString(R.string.input_field_empty_error);
+            Log.d(LOG_TAG, "Login unsuccessful, Error: " + loginError);
+            mLoginError = loginError;
+            mLoginErrorText.setText(mLoginError);
+
         }
+
+
+    }
+
+    private void sendLoginRequest(String loginEmail, String loginPassword, final LoginRequestCallback callback){
+        LoginRequest loginRequest = new LoginRequest(loginEmail, loginPassword, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject answer = new JSONObject(response);
+                    if(answer.getBoolean("success")){
+                        callback.onSuccess(answer);
+                    }else{
+                        callback.onLoginError(answer.getString("error"));
+                    }
+                }catch (JSONException e){
+                    Log.e(LOG_TAG, "JSON Exception", e);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(LOG_TAG,  "LoginRequest Volley Error", error);
+            }
+        });
+
+        loginRequest.setTag(REQUEST_TAG);
+        RequestQueueSingleton.getInstance(this.getContext()).addToRequestQueue(loginRequest);
+        Log.d(LOG_TAG,"Start LoginRequest");
+    }
+
+    private interface LoginRequestCallback{
+        void onSuccess(JSONObject jsonObject);
+        void onLoginError(String error);
+    }
+
+    public interface onLoginFragmentInteractionListener {
+        void onLoginButtonPressed(View v);
     }
 
     @Override
@@ -202,4 +227,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             mRequestQueue.cancelAll(REQUEST_TAG);
         }
     }
+
+
 }
