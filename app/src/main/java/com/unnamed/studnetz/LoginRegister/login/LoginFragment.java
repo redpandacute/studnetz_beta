@@ -130,7 +130,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onLoginError(String error) {
-                    String loginRequestError = "";
+                    String loginRequestError;
 
                     switch (error){
 
