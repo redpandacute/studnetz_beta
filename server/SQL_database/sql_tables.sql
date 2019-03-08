@@ -63,10 +63,11 @@ CREATE TABLE school_list(
 				14,0,'-'),
 			19,0,'-'),
 		24,0,'-')
-	) virtual,V
+	) virtual,
 	
 	schooltype_id AUTO_INCREMENT NOT NULL,
 	schoolname VARCHAR(255) NOT NULL,
+	school_abrv VARCHAR(8) DEFAULT NULL,
 	schoolgrades INT,
 	PRIMARY KEY(school_id),
 	FOREIGN KEY(schooltype_id) REFERENCES schooltype_list(schooltype_id)
@@ -78,7 +79,6 @@ CREATE TABLE school_conn(
 	grade INT DEFAULT NULL,
 	PRIMARY KEY(user_id, school_id),
 	FOREIGN KEY(user_id) REFERENCES user_archive(user_id),
-	FOREIGN KEY(school_id) REFERENCES school_list(school_id)
 );
 
 CREATE TABLE schoolverification_archive(
@@ -111,13 +111,14 @@ CREATE TABLE subject_list(
 
 	subjectname VARCHAR(255) NOT NULL,
 	color BINARY(3) NOT NULL,
-	PRIMARY KEY(subject_id)
+	PRIMARY KEY(subject_id),
+	UNIQUE(uuid_bin)
 );
 
 CREATE TABLE subject_conn(
 	user_id INT NOT NULL,
 	subject_id INT NOT NULL,
-	PRIMARY KEY(user_id, subject_id),
-	FOREIGN KEY(user_id) REFERENCES user_archive(user_id),
-	FOREIGN KEY(subject_id) REFERENCES subject_list(subject_id)
+	PRIMARY KEY(user_id),
+	FOREIGN KEY(user_id) REFERENCES user_archive(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY(subject_id) REFERENCES subject_list(subject_id) ON UPDATE CASCADE ON DELETE CASCADE
 );

@@ -23,7 +23,7 @@ if($con->connect_error) {
 
 	$response = [
 		'success' => false,
-		'error' => $con->connect_error . ':Failed to connect to DB'
+		'error' => '500:1:Failed to connect to database' 
 	];
 
 	print_r(json_encode($response));
