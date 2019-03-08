@@ -63,10 +63,11 @@ CREATE TABLE school_list(
 				14,0,'-'),
 			19,0,'-'),
 		24,0,'-')
-	) virtual,V
+	) virtual,
 	
 	schooltype_id AUTO_INCREMENT NOT NULL,
 	schoolname VARCHAR(255) NOT NULL,
+	school_abrv VARCHAR(8) DEFAULT NULL,
 	schoolgrades INT,
 	PRIMARY KEY(school_id),
 	FOREIGN KEY(schooltype_id) REFERENCES schooltype_list(schooltype_id)
@@ -111,7 +112,8 @@ CREATE TABLE subject_list(
 
 	subjectname VARCHAR(255) NOT NULL,
 	color BINARY(3) NOT NULL,
-	PRIMARY KEY(subject_id)
+	PRIMARY KEY(subject_id),
+	UNIQUE(uuid_bin)
 );
 
 CREATE TABLE subject_conn(

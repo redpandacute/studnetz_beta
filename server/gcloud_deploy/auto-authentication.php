@@ -48,9 +48,6 @@ $data  = $payload['data'];
 $email = $data['email'];
 $uuid = $data['uuid_text'];
 
-echo $email;
-echo ' ' . $uuid;
-
 $stmt = mysqli_prepare($con, "SELECT user_archive.* FROM user_archive WHERE email = ? AND uuid_bin = UNHEX(REPLACE(?,'-','')) LIMIT 1");
 
 mysqli_stmt_bind_param($stmt, 'ss', $email, $uuid);
