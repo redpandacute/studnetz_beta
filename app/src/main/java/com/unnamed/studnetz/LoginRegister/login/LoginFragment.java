@@ -58,6 +58,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         mInputMethodManager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
 
+        mRequestQueue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
+
         mLoginProgressBar = view.findViewById(R.id.login_progressBar);
         mPasswordField = view.findViewById(R.id.edittext_login_password);
         mEmailField = view.findViewById(R.id.edittext_login_email);
@@ -66,8 +68,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         mButtonForgotPassword = view.findViewById(R.id.text_login_forgot);
         mButtonLoginSignUp = view.findViewById(R.id.text_login_register);
-
-        mRequestQueue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
 
         return view;
 
@@ -103,7 +103,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             if(!mLoginIn) {
                 if (v.getId() == R.id.button_login_signin) {
                     // Hide soft keyboard
-                    mInputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    if(mInputMethodManager != null)
+                        mInputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     login();
                 } else {
                     mListener.onLoginButtonPressed(v);
@@ -115,7 +116,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private void login()  {
         Log.d(LOG_TAG,"Start login process");
 
-        final String loginEmail = mEmailField.getText().toString();
+        String loginEmail = mEmailField.getText().toString();
         String loginPassword = mPasswordField.getText().toString();
 
         if(!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPassword)){
@@ -139,7 +140,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 public void onLoginError(String error) {
                     String loginRequestError;
 
-                    switch (error){
+                    switch (error) {
+
+                        case "500:1:Failed to connect to database":
+                            loginRequestError = getString(R.string.db_connection_error);
+                            break;
 
                         case "400:1:Bad Input":
                             loginRequestError = getString(R.string.input_field_empty_error);
@@ -152,7 +157,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         default:
                             loginRequestError = "Something went wrong, please try again later";
                             Log.wtf(LOG_TAG, "LoginRequest Error: Unknown Error: " + error);
-                    }
+                        }
+
 
                     Log.d(LOG_TAG, "Login unsuccessful, Error: " + loginRequestError);
                     mLoginError = loginRequestError;

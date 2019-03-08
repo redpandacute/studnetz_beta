@@ -51,15 +51,23 @@
         android:layout_marginTop="@dimen/margin_view"
         android:background="@drawable/basic_rounded_button"
         android:enabled="false"
-        android:text="@string/next"
+        android:text="@string/finish"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/normal_button_font_size"/>
+
+    <Button
+        android:id="@+id/button_register_name_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_view"
+        android:background="@drawable/basic_rounded_button"
+        android:text="@string/back"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/normal_button_font_size" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/margin_view"/>
+
 
 
 </LinearLayout>

@@ -44,11 +44,16 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</string>
 
     <!-- Error messages -->
+
+
+    <string name="default_unknown_error">Something went wrong\nPlease try again later</string>
+    <string name="db_connection_error">Something went wrong\nPlease try again later</string>
+
     <string name="input_field_empty_error">Please fill the required fields</string>
 
     <string name="valid_email_error">That is not a valid email address</string>
     <string name="email_taken_error">This email address has been taken</string>
-    <string name="password_match_error">Password and confirm password do not match</string>
+    <string name="password_match_error">Passwords do not match</string>
 
     <!-- Stolen from Instagram, maybe change-->
     <string name="password_to_short_error">Password must be at least %d characters</string>

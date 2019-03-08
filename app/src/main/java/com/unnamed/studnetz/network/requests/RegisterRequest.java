@@ -16,13 +16,13 @@ public class RegisterRequest extends StringRequest {
     private static final String URL = "https://deep-contact-232012.appspot.com/register.php";
     private Map<String, String> mParams;
 
-    public RegisterRequest(String email,String firstname,String lastname, String password, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
+    public RegisterRequest(String email, String password, String firstname,String lastname, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
         super(Request.Method.POST, URL, listener, errorListener);
         mParams = new HashMap<String, String>();
         mParams.put("email", email);
+        mParams.put("password", password);
         mParams.put("firstname", firstname);
         mParams.put("lastname", lastname);
-        mParams.put("password", password);
 
     }
 

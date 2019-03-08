@@ -1,6 +1,5 @@
 package com.unnamed.studnetz.LoginRegister;
 
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,20 +11,20 @@ import android.widget.Toast;
 
 import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragment;
-import com.unnamed.studnetz.LoginRegister.register.RegisterFragmentChildInteractionListener;
 import com.unnamed.studnetz.R;
 
-public class LoginRegisterActivity extends AppCompatActivity implements LoginFragment.onLoginFragmentInteractionListener, RegisterFragment.onRegisterFragmentInteractionListener, RegisterFragmentChildInteractionListener {
+public class LoginRegisterActivity extends AppCompatActivity implements LoginFragment.onLoginFragmentInteractionListener, RegisterFragment.onRegisterFragmentInteractionListener{
 
-    private LoginFragment mLoginFragment;
-    private RegisterFragment mRegisterFragment;
+    private final static String LOG_TAG = "LoginRegisterActivity";
 
     private final static String LOGIN_FRAGMENT_TAG = "LOGIN_FRAGMENT_TAG";
     private final static String REGISTER_FRAGMENT_TAG = "REGISTER_FRAGMENT_TAG";
 
-    FragmentManager fm;
+    private LoginFragment mLoginFragment;
+    private RegisterFragment mRegisterFragment;
 
-    private final static String LOG_TAG = "LoginRegisterActivity";
+    private FragmentManager fm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,32 +37,23 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
         fm = getSupportFragmentManager();
 
         if(savedInstanceState == null) {
-
-            Log.d(LOG_TAG,"starting Login Fragment");
+            Log.d(LOG_TAG,"Starting Login Fragment");
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.add(R.id.flcontainer_login_register_fragment, mLoginFragment);
             fragmentTransaction.commitNow();
-
         }else{
-
             mLoginFragment = (LoginFragment) fm.findFragmentByTag(LOGIN_FRAGMENT_TAG);
             mRegisterFragment = (RegisterFragment) fm.findFragmentByTag(REGISTER_FRAGMENT_TAG);
-
         }
-
-
 
     }
 
-
     @Override
     public void onLoginButtonPressed(View v) {
-        if(v == null){
-            return;
-        }
 
         switch (v.getId()){
             case R.id.text_login_forgot:
+                //Todo: Forgot Password
                 Toast.makeText(getApplicationContext(),"Open Forgot Password", Toast.LENGTH_LONG).show();
                 break;
             case R.id.text_login_register:
@@ -85,10 +75,8 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
 
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack){
-        Log.d(LOG_TAG,"replacing Fragment, new " + fragment.toString());
-        if(fragment == null){
-            return;
-        }
+        Log.d(LOG_TAG,"Replacing LoginRegisterFragment with " + fragment.toString());
+
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.flcontainer_login_register_fragment, fragment);
 
@@ -104,19 +92,9 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
         replaceFragment(fragment,addToBackStack);
     }
 
-    // Methods for communication between RegisterFragment and child fragments
-    @Override
-    public void nextRegisterChildFragment(String[] data) {
-        mRegisterFragment.nextFragment(data);
-    }
-
-    @Override
-    public void backRegisterChildFragment() {
-        mRegisterFragment.backFragment();
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
     }
+
 }
