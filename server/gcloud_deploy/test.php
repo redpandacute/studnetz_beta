@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/env.php';
+require __DIR__ . '/config/env.php';
 
 use Google\Cloud\Storage\StorageClient;
 
@@ -20,7 +20,7 @@ $connectionname = "deep-contact-232012:europe-west1:studnetz-beta-1-db";
 
 //CREATE CONNECTION TO DB
 
-$con = new mysqli($servername, $username, $password, $dbname, $dbport, "/cloudsql/". $connectionname);
+$con = new mysqli($servername, $username, /*$password*/'hello', $dbname, $dbport, "/cloudsql/". $connectionname);
 
 if($con->connect_error) {
 	die("Connection failed: " . $con->connect_error);

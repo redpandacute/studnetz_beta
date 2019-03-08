@@ -120,6 +120,5 @@ CREATE TABLE subject_conn(
 	subject_id INT NOT NULL,
 	PRIMARY KEY(user_id),
 	FOREIGN KEY(user_id) REFERENCES user_archive(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
-
 	FOREIGN KEY(subject_id) REFERENCES subject_list(subject_id) ON UPDATE CASCADE ON DELETE CASCADE
 );

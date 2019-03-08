@@ -19,7 +19,7 @@ $con = new mysqli($servername, $username, $password, $dbname, $dbport, '/cloudsq
 if($con->connect_error) {
 	$response = [
 		'success' => false,
-		'error' => 'DB Connection Error: ' . $con->connect_error
+		'error' => '500:1:Failed to connect to database'
 	];
 
 	print_r(json_encode($response));
