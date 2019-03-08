@@ -100,8 +100,8 @@ if(isset($_POST['profile'])) {
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 
-	$stmt = mysqli_prepare($con,"UPDATE user_profile SET description = ? WHERE user_id = ?");
-	mysqli_stmt_bind_param($stmt, 'si', $profile['description'],  $uid);
+	$stmt =	mysqli_prepare($con, "INSERT INTO profile_archive (user_id, description) VALUES (?, ?) ON DUPLICATE KEY UPDATE description = ?");
+	mysqli_stmt_bind_param($stmt, 'iss', $uid ,$profile['description'],  $profile['description']);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 }
@@ -109,9 +109,11 @@ if(isset($_POST['profile'])) {
 	
 if(isset($_POST['school'])) {
 	$school = json_decode($_POST['school'], true);
-	$stmt = mysqli_prepare($con, "UPDATE school_conn SET school_id = (SELECT school_id FROM school_list WHERE uuid_bin = UNHEX(REPLACE(?,'-',''), grade = ? WHERE user_id = ?");
-	mysqli_stmt_bind_param($stmt, 'is', $school['uuid'], $school['grade'], $uid);
+	$stmt = mysqli_prepare($con, "INSERT INTO school_conn (user_id, school_id, grade) SELECT ?, school_id, ? FROM school_list WHERE uuid_bin = UNHEX(REPLACE(?,'-','')) ON DUPLICATE KEY UPDATE school_id = (SELECT school_id FROM school_list WHERE uuid_bin = UNHEX(REPLACE(?,'-',''))), grade = ?");
+	mysqli_stmt_bind_param($stmt, 'iissi', $uid, $school['grade'], $school['uuid_text'], $school['uuid_text'], $school['grade']);
 	mysqli_stmt_execute($stmt);
+	mysqli_stmt_store_result($stmt);
+
 	mysqli_stmt_close($stmt);
 }
 

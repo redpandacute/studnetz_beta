@@ -79,7 +79,6 @@ CREATE TABLE school_conn(
 	grade INT DEFAULT NULL,
 	PRIMARY KEY(user_id, school_id),
 	FOREIGN KEY(user_id) REFERENCES user_archive(user_id),
-	FOREIGN KEY(school_id) REFERENCES school_list(school_id)
 );
 
 CREATE TABLE schoolverification_archive(
@@ -119,7 +118,8 @@ CREATE TABLE subject_list(
 CREATE TABLE subject_conn(
 	user_id INT NOT NULL,
 	subject_id INT NOT NULL,
-	PRIMARY KEY(user_id, subject_id),
-	FOREIGN KEY(user_id) REFERENCES user_archive(user_id),
-	FOREIGN KEY(subject_id) REFERENCES subject_list(subject_id)
+	PRIMARY KEY(user_id),
+	FOREIGN KEY(user_id) REFERENCES user_archive(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+
+	FOREIGN KEY(subject_id) REFERENCES subject_list(subject_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
