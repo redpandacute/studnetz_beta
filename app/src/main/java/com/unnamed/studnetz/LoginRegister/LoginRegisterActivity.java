@@ -49,17 +49,7 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
             mRegisterFragment = (RegisterFragment) fm.findFragmentByTag(REGISTER_FRAGMENT_TAG);
         }
 
-        ManagerSingleton.getInstance(getApplicationContext()).autoLogin(new ManagerSingleton.autoLoginCallback() {
-            @Override
-            public void onSuccess() {
-                sendToMainActivity();
-            }
 
-            @Override
-            public void onError(String error) {
-                Log.d(LOG_TAG, "AutoLogin unsuccessful, Error: " + error);
-            }
-        });
 
     }
 

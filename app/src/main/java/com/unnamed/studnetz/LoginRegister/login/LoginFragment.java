@@ -154,7 +154,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                             loginRequestError = getString(R.string.input_field_empty_error);
                             break;
 
-                        case "401:1:Bad user":
+                        case "404:1:Bad user":
                             loginRequestError = getString(R.string.login_wrong_input);
                             break;
 

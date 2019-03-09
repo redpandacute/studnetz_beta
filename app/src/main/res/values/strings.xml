@@ -6,7 +6,7 @@
     <string name="title_activity_register">RegisterActivity</string>
 
     <!-- sign in and -up -->
-    <string name ="email">Email</string>
+    <string name="email">Email</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="login_signup_info">Don\'t have an account?\n<b><font color="#008577">SIGN UP NOW</font></b></string>
     <string name="register_signin_info">Already have an account?\n<b><font color="#008577">SIGN IN NOW</font></b></string>
