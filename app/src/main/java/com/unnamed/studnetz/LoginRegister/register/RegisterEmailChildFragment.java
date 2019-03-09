@@ -21,7 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.unnamed.studnetz.R;
-import com.unnamed.studnetz.network.RequestQueueSingleton;
+import com.unnamed.studnetz.network.ManagerSingleton;
 import com.unnamed.studnetz.network.requests.EmailAvailabilityRequest;
 
 import org.json.JSONException;
@@ -55,7 +55,7 @@ public class RegisterEmailChildFragment extends RegisterChildFragment implements
 
         mInputMethodManager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
 
-        mRequestQueue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
+        mRequestQueue = ManagerSingleton.getInstance(getContext()).getRequestQueue();
 
         mEmailTextField = view.findViewById(R.id.edittext_register_email);
 
@@ -242,7 +242,7 @@ public class RegisterEmailChildFragment extends RegisterChildFragment implements
 
         emailAvailabilityRequest.setTag(REQUEST_TAG);
 
-        RequestQueueSingleton.getInstance(this.getContext()).addToRequestQueue(emailAvailabilityRequest);
+        ManagerSingleton.getInstance(this.getContext()).addToRequestQueue(emailAvailabilityRequest);
         Log.d(LOG_TAG,"Start EmailAvailabilityRequest");
     }
 

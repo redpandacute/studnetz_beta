@@ -18,8 +18,8 @@ public class ClientProfileModel {
 
     public ClientProfileModel(JSONObject JSON, Context context) throws JSONException, IOException {
 
-        this.mFirstname = JSON.getString("Firstname");
-        this.mLastname = JSON.getString("Lastname");
+        this.mFirstname = JSON.getString("firstname");
+        this.mLastname = JSON.getString("lastname");
         this.mDescription = JSON.getString("Description");
         this.mSchool = JSON.getString("School");
         this.mEmail = JSON.getString("Email");
@@ -119,4 +119,5 @@ public class ClientProfileModel {
         this.mGrade = mGrade;
         this.mJSON.put("Grade", mGrade);
     }
+
 }

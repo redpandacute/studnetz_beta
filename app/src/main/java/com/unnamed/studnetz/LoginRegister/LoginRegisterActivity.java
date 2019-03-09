@@ -1,5 +1,6 @@
 package com.unnamed.studnetz.LoginRegister;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import com.unnamed.studnetz.LoginRegister.login.LoginFragment;
 import com.unnamed.studnetz.LoginRegister.register.RegisterFragment;
 import com.unnamed.studnetz.R;
+import com.unnamed.studnetz.main.MainActivity;
+import com.unnamed.studnetz.network.ManagerSingleton;
 
 public class LoginRegisterActivity extends AppCompatActivity implements LoginFragment.onLoginFragmentInteractionListener, RegisterFragment.onRegisterFragmentInteractionListener{
 
@@ -46,6 +49,18 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
             mRegisterFragment = (RegisterFragment) fm.findFragmentByTag(REGISTER_FRAGMENT_TAG);
         }
 
+        ManagerSingleton.getInstance(getApplicationContext()).autoLogin(new ManagerSingleton.autoLoginCallback() {
+            @Override
+            public void onSuccess() {
+                sendToMainActivity();
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.d(LOG_TAG, "AutoLogin unsuccessful, Error: " + error);
+            }
+        });
+
     }
 
     @Override
@@ -64,6 +79,11 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
     }
 
     @Override
+    public void onLoginProcessComplete() {
+        sendToMainActivity();
+    }
+
+    @Override
     public void onRegisterButtonPressed(View v) {
         switch (v.getId()){
             case R.id.register_login:
@@ -71,6 +91,17 @@ public class LoginRegisterActivity extends AppCompatActivity implements LoginFra
                 break;
 
         }
+    }
+
+    @Override
+    public void onRegisterProcessComplete() {
+        sendToMainActivity();
+    }
+
+    private void sendToMainActivity(){
+        Intent mainIntent = new Intent(LoginRegisterActivity.this, MainActivity.class);
+        startActivity(mainIntent);
+        finish();
     }
 
 

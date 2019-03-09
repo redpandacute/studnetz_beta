@@ -1,5 +1,6 @@
 package com.unnamed.studnetz.main;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,20 +11,25 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.unnamed.studnetz.LoginRegister.LoginRegisterActivity;
 import com.unnamed.studnetz.R;
 import com.unnamed.studnetz.main.fragments.GroupsFragment;
 import com.unnamed.studnetz.main.fragments.HomeFragment;
 import com.unnamed.studnetz.main.fragments.NotificationsFragment;
 import com.unnamed.studnetz.main.fragments.ProfileFragment;
 import com.unnamed.studnetz.main.fragments.SearchFilterFragment;
+import com.unnamed.studnetz.network.ManagerSingleton;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener {
 
     BottomNavigationView bottomNavigation;
     ImageButton SearchButton;
+
+    Button mLogOutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +38,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
-
-
+        mLogOutButton = findViewById(R.id.temp_logout);
+        mLogOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ManagerSingleton.getInstance(getApplicationContext()).logOut();
+                Intent loginIntent = new Intent(MainActivity.this, LoginRegisterActivity.class);
+                startActivity(loginIntent);
+                finish();
+            }
+        });
 
         replaceFragment(new HomeFragment(),false);
-
-
 
     }
 

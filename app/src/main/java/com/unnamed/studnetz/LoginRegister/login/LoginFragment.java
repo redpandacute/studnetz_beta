@@ -21,7 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.unnamed.studnetz.R;
-import com.unnamed.studnetz.network.RequestQueueSingleton;
+import com.unnamed.studnetz.network.ManagerSingleton;
 import com.unnamed.studnetz.network.requests.LoginRequest;
 
 import org.json.JSONException;
@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         mInputMethodManager = (InputMethodManager) getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE);
 
-        mRequestQueue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
+        mRequestQueue = ManagerSingleton.getInstance(getContext()).getRequestQueue();
 
         mLoginProgressBar = view.findViewById(R.id.login_progressBar);
         mPasswordField = view.findViewById(R.id.edittext_login_password);
@@ -126,14 +126,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             sendLoginRequest(loginEmail, loginPassword, new LoginRequestCallback() {
                 @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    // Todo: Set active User
+                public void onSuccess(String token) {
+
+                    ManagerSingleton.getInstance(getContext()).setActiveUser(token);
+
                     mLoginError = "";
-                    Log.d(LOG_TAG, "Login successful, User:" + jsonObject.toString());
+                    Log.d(LOG_TAG, "Login successful");
 
                     mLoginProgressBar.setVisibility(View.INVISIBLE);
                     mLoginErrorText.setText(mLoginError);
                     mLoginIn = false;
+
+                    mListener.onLoginProcessComplete();
                 }
 
                 @Override
@@ -187,7 +191,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 try {
                     JSONObject answer = new JSONObject(response);
                     if(answer.getBoolean("success")){
-                        callback.onSuccess(answer);
+                        callback.onSuccess(answer.getString("token"));
                     }else{
                         callback.onLoginError(answer.getString("error"));
                     }
@@ -203,17 +207,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         });
 
         loginRequest.setTag(REQUEST_TAG);
-        RequestQueueSingleton.getInstance(this.getContext()).addToRequestQueue(loginRequest);
+        ManagerSingleton.getInstance(this.getContext()).addToRequestQueue(loginRequest);
         Log.d(LOG_TAG,"Start LoginRequest");
     }
 
     private interface LoginRequestCallback{
-        void onSuccess(JSONObject jsonObject);
+        void onSuccess(String token);
         void onLoginError(String error);
     }
 
     public interface onLoginFragmentInteractionListener {
         void onLoginButtonPressed(View v);
+        void onLoginProcessComplete();
     }
 
     @Override

@@ -19,7 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.unnamed.studnetz.R;
-import com.unnamed.studnetz.network.RequestQueueSingleton;
+import com.unnamed.studnetz.network.ManagerSingleton;
 import com.unnamed.studnetz.network.requests.RegisterRequest;
 
 import org.json.JSONArray;
@@ -33,6 +33,7 @@ public class RegisterFragment extends Fragment implements RegisterEmailChildFrag
 
     public interface onRegisterFragmentInteractionListener {
         void onRegisterButtonPressed(View v);
+        void onRegisterProcessComplete();
     }
 
     private onRegisterFragmentInteractionListener mListener;
@@ -67,7 +68,7 @@ public class RegisterFragment extends Fragment implements RegisterEmailChildFrag
             fragmentTransaction.commitNow();
         }
 
-        mRequestQueue = RequestQueueSingleton.getInstance(view.getContext()).getRequestQueue();
+        mRequestQueue = ManagerSingleton.getInstance(view.getContext()).getRequestQueue();
 
         mGoToLoginButton = view.findViewById(R.id.register_login);
         mRegisterProgressBar = view.findViewById(R.id.register_progressBar);
@@ -241,7 +242,7 @@ public class RegisterFragment extends Fragment implements RegisterEmailChildFrag
         });
 
         registerRequest.setTag(REQUEST_TAG);
-        RequestQueueSingleton.getInstance(this.getContext()).addToRequestQueue(registerRequest);
+        ManagerSingleton.getInstance(this.getContext()).addToRequestQueue(registerRequest);
         Log.d(LOG_TAG,"Start RegisterRequest");
     }
 
