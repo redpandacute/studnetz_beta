@@ -1,0 +1,51 @@
+/ INCLUDED VARIABLES /
+
+	rating
+	experience
+	magic (for instance if we want to support certain demographics)
+	verification
+	activity
+
+	::trustfactor::
+		-goes up with experience
+		-goes up with good ratings and many reviews
+		-goes up with verified account		
+		-confirmation rating
+
+
+	::quality::
+		-goes up with good reviews
+		-goes up with rating
+		-goes up with higher education
+		-goes up with experience
+		-activity
+
+RATING: 0 - 10
+ACTIVITY 0 - 10
+verification: static value
+magic: static value, dependant on school, grade etc
+experience: unlimited but should behave somewhat according to a log() function
+review: goes up with more reviews with an attached rating above 5, negative reviews should get weighted very hard tho.
+education: static value, dependant on schooltype and grade
+
+verification * confirmationrating * profilerating * reviewrating *
+
+(TRUSTFACTOR + QUALITY + ACTIVITY + BASE) * MAGIC
+
+(TO BE IGNORED, NOT USED!!)--TRUSTFACTOR = rating avg. * (verificationfactor * abs(ratings above 5) * abs(positive reviews above 5)^2/(abs(positive reviews above 5)^1.5 * const.1.'0,9') * ln(tutorincount)/ln(const.2.'1,35') - abs(rating under 5)^(3/(avrg. ratings under 5)))
+
+ p_tf(x) =  ln(1.1x/(x-2) - [n])/| ln(1.1x/(x-2) - [n]) | while n =: percentage of ratings under 3 stars; x =: number of confirmed tutorings
+
+ u_tf(x) = (x - 5)/(x + 3) + 2 while x =: different schoolars with rating
+
+ c_tf(x) = (0.5 tanh(0.2(x - 7)) + 0.5) * (y - 1) while x =: amount of confirmations (onesided orconfirmed), y =: ratio of onesided confirmations
+
+ r_qu(x) = 3 * (x - 3)^3/(x + 1.5) while x =: avg rating
+
+trustfactor: [weigth] * p_tf([confirmed tutorings], [rating percentage under 3]) * [different users] - [weight] * c_tf([onesided confirms])
+
+quality: [weigth] * r_qu([avg. rating]) * u_tf([different schoolars with rating])
+
+activity: [tutorings in last 10 days] * [weight] + [logindays in last 30 days] * [weight]
+
+

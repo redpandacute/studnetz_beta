@@ -75,8 +75,6 @@ mysqli_stmt_store_result($stmt);
 mysqli_stmt_bind_result($stmt, $exists);
 mysqli_stmt_fetch($stmt);
 
-echo $exists;
-
 if($exists == 1) { 
 
 	$valid = false;
