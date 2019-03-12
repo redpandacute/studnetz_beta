@@ -15,4 +15,12 @@
         <attr name="backgroundColor" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="SubjectView">
+        <attr name="subjectTextColor" format="reference"/>
+        <attr name="textHeight" format="dimension|integer"/>
+        <attr name="subjectText" format="reference|string"/>
+        <attr name="icon" format="reference"/>
+        <attr name="subjectBackgroundColor" format="reference"/>
+    </declare-styleable>
+
 </resources>

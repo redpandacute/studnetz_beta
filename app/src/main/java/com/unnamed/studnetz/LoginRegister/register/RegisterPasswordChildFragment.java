@@ -181,8 +181,8 @@ public class RegisterPasswordChildFragment extends RegisterChildFragment impleme
     public void onStart() {
         super.onStart();
         RegisterFragment parent  = (RegisterFragment) getParentFragment();
-        mPasswordField.setText(parent.getFirstName());
-        mConfPasswordField.setText(parent.getFirstName());
+        mPasswordField.setText(parent.getPassword());
+        mConfPasswordField.setText(parent.getPassword());
     }
 
     @Override
