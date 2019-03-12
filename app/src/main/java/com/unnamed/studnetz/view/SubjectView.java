@@ -108,6 +108,7 @@ public class SubjectView extends View {
         }
 
         if(a.hasValue(R.styleable.SubjectView_subjectBackgroundColor)){
+            System.out.println(a.getInteger(R.styleable.SubjectView_subjectBackgroundColor,0));
             setBackgroundColor(a.getInteger(R.styleable.SubjectView_subjectBackgroundColor,0));
         }else{
             setBackgroundColor(getResources().getColor(R.color.black_overlay));
@@ -134,8 +135,6 @@ public class SubjectView extends View {
         mBackground.setBounds(0,0,getMeasuredHeight(),getMeasuredWidth());
         mBackground.draw(canvas);
 
-        System.out.println("dfsdsaffdsadfsa" + mSubject + " " + mTextHeight);
-
         int textWidth = (int) mTextPaint.measureText(mSubject);
         px = px-textWidth/2.0f;
         py =  measuredHeight - mTextHeight/4.0f - mTextPaddingBottom;
@@ -150,7 +149,7 @@ public class SubjectView extends View {
         int measuredWidth = measure(widthMeasureSpec);
         int measureHeight = measure(heightMeasureSpec);
 
-        int d = Math.min(measuredWidth, measureHeight);
+        int d = Math.max(measuredWidth, measureHeight);
 
         setMeasuredDimension(d,d);
     }
