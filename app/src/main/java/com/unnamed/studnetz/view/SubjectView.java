@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -17,6 +15,8 @@ import android.view.View;
 import com.unnamed.studnetz.R;
 
 public class SubjectView extends View {
+
+    //Todo: revise
 
     Paint mTextPaint;
 
@@ -128,10 +128,8 @@ public class SubjectView extends View {
         int measuredWidth = getMeasuredWidth();
         int measuredHeight = getMeasuredHeight();
 
-        float px = measuredWidth / 2;
-        float py = measuredHeight /2;
-
-        float radius = Math.min(px,py);
+        float px = measuredWidth / 2.0f;
+        float py = measuredHeight /2.0f;
 
         mBackground.setBounds(0,0,getMeasuredHeight(),getMeasuredWidth());
         mBackground.draw(canvas);
@@ -139,8 +137,8 @@ public class SubjectView extends View {
         System.out.println("dfsdsaffdsadfsa" + mSubject + " " + mTextHeight);
 
         int textWidth = (int) mTextPaint.measureText(mSubject);
-        px = px-textWidth/2;
-        py =  measuredHeight - mTextHeight/4 - mTextPaddingBottom;
+        px = px-textWidth/2.0f;
+        py =  measuredHeight - mTextHeight/4.0f - mTextPaddingBottom;
         canvas.drawText(mSubject,px,py,mTextPaint);
 
         mImage.setBounds(getPaddingStart(), getPaddingTop(),getMeasuredWidth()-getPaddingEnd(),getMeasuredHeight()-getPaddingBottom());
@@ -158,7 +156,7 @@ public class SubjectView extends View {
     }
 
     private int measure(int measureSpec){
-        int result = 0;
+        int result;
 
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -170,11 +168,6 @@ public class SubjectView extends View {
         }
 
         return result;
-    }
-
-
-    public int getTextColor() {
-        return mTextColor;
     }
 
     public void setTextColor(int mTextColor) {
@@ -220,9 +213,11 @@ public class SubjectView extends View {
     public int getDrawableId() {
         return mDrawableId;
     }
-
     public String getSubject() {
         return mSubject;
+    }
+    public int getTextColor() {
+        return mTextColor;
     }
 
 }
