@@ -24,6 +24,7 @@
     <dimen name="subtitle_font_size">20sp</dimen>
     <dimen name="input_font_size">18sp</dimen>
     <dimen name="normal_button_font_size">18sp</dimen>
+    <dimen name="toolbar_title_font_size">24sp</dimen>
 
     <!-- Login Register Dimens -->
     <dimen name="title_margin_bottom">50dp</dimen>

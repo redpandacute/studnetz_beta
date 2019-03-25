@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.unnamed.studnetz.LoginRegister.LoginRegisterActivity;
 import com.unnamed.studnetz.R;
+import com.unnamed.studnetz.StartUpActivity;
 import com.unnamed.studnetz.main.fragments.GroupsFragment;
 import com.unnamed.studnetz.main.fragments.HomeFragment;
 import com.unnamed.studnetz.main.fragments.NotificationsFragment;
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     BottomNavigationView bottomNavigation;
     ImageButton SearchButton;
 
-    Button mLogOutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +38,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
-        mLogOutButton = findViewById(R.id.temp_logout);
-        mLogOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ManagerSingleton.getInstance(getApplicationContext()).logOut();
-                Intent loginIntent = new Intent(MainActivity.this, LoginRegisterActivity.class);
-                startActivity(loginIntent);
-                finish();
-            }
-        });
 
         replaceFragment(new HomeFragment(),false);
 
@@ -97,7 +87,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-    public void onHomeFragmentInteraction() {
+    public void onHomeFragmentInteraction(View v) {
+        if(v.getId() == R.id.temp_logOut_button){
+            ManagerSingleton.getInstance(getApplicationContext()).logOut();
+            Intent intent = new Intent(MainActivity.this, LoginRegisterActivity.class);
+            startActivity(intent);
+            finish();
+        }else
         replaceFragment(new SearchFilterFragment(), true);
     }
 }
