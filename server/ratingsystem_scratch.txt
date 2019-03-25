@@ -34,7 +34,9 @@ verification * confirmationrating * profilerating * reviewrating *
 
 (TO BE IGNORED, NOT USED!!)--TRUSTFACTOR = rating avg. * (verificationfactor * abs(ratings above 5) * abs(positive reviews above 5)^2/(abs(positive reviews above 5)^1.5 * const.1.'0,9') * ln(tutorincount)/ln(const.2.'1,35') - abs(rating under 5)^(3/(avrg. ratings under 5)))
 
- p_tf(x) =  ln(1.1x/(x-2) - [n])/| ln(1.1x/(x-2) - [n]) | while n =: percentage of ratings under 3 stars; x =: number of confirmed tutorings
+ p_tf(x) =  ln(1.1x/(x-2) - [n])/| ln(1.1x/(x-2) - [n]) | while n =: percentage of ratings under 3 stars; x =: number of confirmed tutorings --SCRATCHED-- REPLACED WITH p(x)
+
+p(x) = -tanh(n - (tanh(0.2 (x - 5)) + 1)) while n =: rating ratio under 3 stars; x =: amount of confirmed tutorings (onesided or bothsided)
 
  u_tf(x) = (x - 5)/(x + 3) + 2 while x =: different schoolars with rating
 
@@ -48,4 +50,4 @@ quality: [weigth] * r_qu([avg. rating]) * u_tf([different schoolars with rating]
 
 activity: [tutorings in last 10 days] * [weight] + [logindays in last 30 days] * [weight]
 
-
+END: rating = (trustfactor + quality + activity) * magic

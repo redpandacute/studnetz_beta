@@ -3,8 +3,6 @@ use Google\Cloud\Storage\StorageClient;
 
 
 require __DIR__ . '/config/env.php';
-require __DIR__ . '/config/jwt_key.php';
-require __DIR__ . '/inc/jwt_helper.php';
 require __DIR__ . '/app_ini.php';
 
 
