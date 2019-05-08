@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">studnetz_beta</string>
+
+
+    <!-- activity_main, menu titles  -->
+    <string name="activity_main_menu_home">Home</string>
+    <string name="activity_main_menu_groups">Groups</string>
+    <string name="activity_main_menu_notifications">Notifications</string>
+    <string name="activity_main_menu_profile">Profile</string>
+
 </resources>
