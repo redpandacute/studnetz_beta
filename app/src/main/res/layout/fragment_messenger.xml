@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".home.HomeFragment">
 
-    <TextView
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Messenger Fragment"
-        android:textAlignment="center"/>
+    <include layout="@layout/toolbar_main"/>
 
 </FrameLayout>

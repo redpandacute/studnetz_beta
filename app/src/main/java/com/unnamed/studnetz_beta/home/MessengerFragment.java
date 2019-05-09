@@ -3,12 +3,19 @@ package com.unnamed.studnetz_beta.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.unnamed.studnetz_beta.R;
 
 public class MessengerFragment extends Fragment {
@@ -35,7 +42,47 @@ public class MessengerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_messenger, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        MaterialToolbar mToolBar = view.findViewById(R.id.material_toolbar_main);
+        mToolBar.setTitle(getResources().getString(R.string.activity_main_menu_notifications));
+
+        try {
+            AppCompatActivity activity = ((AppCompatActivity) getActivity());
+            activity.setSupportActionBar(mToolBar);
+
+            mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.action_profile:
+                            // TODO: Change Fragment to Profile_Fragment
+                            break;
+
+                        case R.id.action_settings:
+                            // TODO: Create Settings Fragment
+                            break;
+                    }
+                    return false;
+                }
+            });
+
+        }catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_toolbar_main,menu);
     }
 
     @Override

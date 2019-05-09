@@ -6,25 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".home.HomeFragment">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/material_toolbar_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="Home"
-            app:titleTextColor="#E0FFFFFF"
-            android:background="@color/primary_color"
-
-
-            >
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <include layout="@layout/toolbar_main"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

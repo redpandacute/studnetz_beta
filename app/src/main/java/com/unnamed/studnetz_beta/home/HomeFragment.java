@@ -1,8 +1,6 @@
 package com.unnamed.studnetz_beta.home;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,8 +18,6 @@ import android.view.ViewGroup;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.unnamed.studnetz_beta.R;
-
-import java.io.IOException;
 
 public class HomeFragment extends Fragment {
 
@@ -54,7 +50,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MaterialToolbar mToolBar = view.findViewById(R.id.material_toolbar_home);
+        MaterialToolbar mToolBar = view.findViewById(R.id.material_toolbar_main);
+        mToolBar.setTitle(getResources().getString(R.string.activity_main_menu_home));
 
         try {
             AppCompatActivity activity = ((AppCompatActivity) getActivity());

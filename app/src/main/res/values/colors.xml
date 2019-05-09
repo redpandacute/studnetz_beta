@@ -13,6 +13,18 @@
 
     <color name="error_color">#aa0000</color>
 
+    <color name="onPrimaryLargeWhite">#E0FFFFFF</color>
+    <color name="onPrimaryLargeBlack">#87000000</color>
+    <color name="onPrimaryNormalBlack">#BA000000</color>
+
+    <color name="onPrimaryLightLarge">#7A000000</color>
+    <color name="onPrimaryLightNormal">#A3000000</color>
+
+    <!-- TODO: Add Colors for P-Dark, Secondary-Light/Dark, on Error , on Background -->
+
+    <color name="onSecondaryLarge">#57000000</color>
+    
+
     <color name="color_white">#ffffff</color>
     <color name="color_black">#000000</color>
 
