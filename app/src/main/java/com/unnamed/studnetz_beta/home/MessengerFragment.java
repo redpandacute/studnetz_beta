@@ -49,40 +49,6 @@ public class MessengerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MaterialToolbar mToolBar = view.findViewById(R.id.material_toolbar_main);
-        mToolBar.setTitle(getResources().getString(R.string.activity_main_menu_notifications));
-
-        try {
-            AppCompatActivity activity = ((AppCompatActivity) getActivity());
-            activity.setSupportActionBar(mToolBar);
-
-            mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.action_profile:
-                            // TODO: Change Fragment to Profile_Fragment
-                            break;
-
-                        case R.id.action_settings:
-                            // TODO: Create Settings Fragment
-                            break;
-                    }
-                    return false;
-                }
-            });
-
-        }catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_toolbar_main,menu);
     }
 
     @Override
